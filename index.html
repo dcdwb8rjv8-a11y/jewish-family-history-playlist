@@ -309,4 +309,162 @@
   <p>Jewish migration, identity and memory in Uruguay: an entry point into the branch of the Gillman/Rafkin family that made its life in Montevideo.</p>
   <a href="https://www.listennotes.com/podcasts/fulbright-forward/exploring-jewish-life-in-2yxlrvITUAG/" target="_blank" rel="noreferrer">Open selection ↗</a></div>
 </article><footer>A portable copy exported from the ChatGPT-hosted playlist. All selection links require an internet connection, but this page itself does not.</footer></main>
+<script>
+(() => {
+
+  /* ---------- Make the site a shared family history ---------- */
+
+  document.title =
+    "The Freedman/Gillman Eastern European Jewish family history playlist";
+
+  const h1 = document.querySelector("h1");
+  if (h1) h1.textContent =
+    "The Freedman/Gillman Eastern European Jewish family history playlist";
+
+  const blurb = document.querySelector("header .blurb");
+  if (blurb) blurb.textContent =
+    "Two family worlds run through this journey. The Gillman and Goldberg families trace their roots through Eastern Europe, with the Goldbergs later settling in Blackburn and the Gillman/Rafkin line including Chabad ancestors and relatives whose journeys reached New York, Bluffton, Amarillo and Montevideo. This line also includes the Tumarkin family, among them the last chief Chabad rabbi of Kharkiv. The Gillman and Goldberg families eventually came together in Liverpool. The Freedman family traces its roots through Vilnius, Trakai and the surrounding towns and villages, among rabbis, shochets, butchers, teachers and tavern landlords, before later generations travelled through Manchester to Blackpool. Many relatives remained in Eastern Europe. On the Freedman side, family remained in Degsnės and Olkeniki and were murdered at Eišiškės. On the Gillman/Goldberg side, relatives remained across Poland and Belarus; some were murdered at Łódź, while members of the Tumarkin Chabad family were among both those murdered and those who survived. This playlist follows those family histories through the places, communities and upheavals that shaped them, and then follows some of the branches that made new lives in Britain, the United States, Australia, South Africa, Israel and South America.";
+
+  const headingChanges = {
+    "Your dad’s Vilnius and Trakai world":
+      "The Freedman family: Vilnius and Trakai",
+    "Your dad's Vilnius and Trakai world":
+      "The Freedman family: Vilnius and Trakai",
+    "Your dad’s Degsnės, Olkeniki and Eišiškės":
+      "The Freedman family: Degsnės, Olkeniki and Eišiškės",
+    "Your dad's Degsnės, Olkeniki and Eišiškės":
+      "The Freedman family: Degsnės, Olkeniki and Eišiškės",
+    "Your mum’s Poland, Belarus and Łódź world":
+      "The Gillman and Goldberg families: Poland, Belarus and Łódź",
+    "Your mum's Poland, Belarus and Łódź world":
+      "The Gillman and Goldberg families: Poland, Belarus and Łódź",
+    "Your mum’s Chabad line":
+      "The Gillman and Rafkin family: Chabad and the Russian Empire",
+    "Your mum's Chabad line":
+      "The Gillman and Rafkin family: Chabad and the Russian Empire",
+    "Your mum’s Blackburn story":
+      "The Goldbergs: Blackburn",
+    "Your mum's Blackburn story":
+      "The Goldbergs: Blackburn",
+    "Your mum’s Liverpool story":
+      "The Gillmans and Goldbergs: Liverpool",
+    "Your mum's Liverpool story":
+      "The Gillmans and Goldbergs: Liverpool",
+    "Your dad’s Manchester and Blackpool story":
+      "The Freedman family: Manchester and Blackpool",
+    "Your dad's Manchester and Blackpool story":
+      "The Freedman family: Manchester and Blackpool",
+    "Your family in America beyond New York":
+      "Gillman and Rafkin: America beyond New York",
+    "Your family in South America":
+      "The South American branch"
+  };
+
+  document.querySelectorAll("h2").forEach(h => {
+    const text = h.textContent.trim();
+    if (headingChanges[text]) h.textContent = headingChanges[text];
+  });
+
+  document.querySelectorAll("article p").forEach(p => {
+    p.innerHTML = p.innerHTML
+      .replace(/your dad’s/gi, "the Freedman family’s")
+      .replace(/your dad's/gi, "the Freedman family’s")
+      .replace(/your mum’s/gi, "the Gillman/Goldberg family’s")
+      .replace(/your mum's/gi, "the Gillman/Goldberg family’s")
+      .replace(/your family’s/gi, "the family’s")
+      .replace(/your family's/gi, "the family’s");
+  });
+
+
+  /* ---------- Apple Podcasts / Spotify / Web links ---------- */
+
+  const webOnly = new Set([18,20,23,26,29,30,31]);
+
+  const web = {
+    2:"https://jsoundbites.podbean.com/e/the-legacy-of-the-vilna-gaon/",
+    6:"https://associationforjewishstudies.org/podcasts/tradition%21-jewish-matchmaking-past-present",
+    10:"https://jsoundbites.podbean.com/e/chabad-zionism-part-i-the-rashab/",
+    12:"https://associationforjewishstudies.org/podcasts/the-lost-history-of-yiddish-popular-fiction",
+    38:"https://fulbrightforward.buzzsprout.com/"
+  };
+
+  const spotify = {
+    1:"https://open.spotify.com/episode/3GJvtWy9JbANk0N0YjSYcV",
+    14:"https://open.spotify.com/episode/7JSdMXsN4FaJJfYY8gP4Ww",
+    19:"https://open.spotify.com/episode/79ZprvD0N2m8qMOiWQqKVa"
+  };
+
+  const style = document.createElement("style");
+  style.textContent = `
+    .listen {
+      margin-top:8px;
+      font-size:14px;
+      font-weight:700;
+      color:#48534e
+    }
+    .listen a {
+      display:inline;
+      background:none;
+      color:#173f35;
+      padding:0;
+      border-radius:0;
+      text-decoration:underline;
+      font-size:14px
+    }
+  `;
+  document.head.appendChild(style);
+
+  document.querySelectorAll("article").forEach((article,index) => {
+    const n = index + 1;
+    const old = article.querySelector("a");
+    if (!old) return;
+
+    const title =
+      article.querySelector("h3").textContent.replace("★","").trim();
+    const show =
+      article.querySelector(".show")?.textContent.trim() || "";
+    const original = old.href;
+
+    const neutral =
+      !original.includes("podcasts.apple.com") &&
+      !original.includes("open.spotify.com");
+
+    const webURL =
+      web[n] ||
+      (neutral
+        ? original
+        : "https://www.google.com/search?q=" +
+          encodeURIComponent('"' + title + '" ' + show));
+
+    if (webOnly.has(n)) {
+      old.outerHTML =
+        `<div class="listen"><strong>Open:</strong> ` +
+        `<a href="${webURL}" target="_blank" rel="noreferrer">Web</a>` +
+        `</div>`;
+      return;
+    }
+
+    const appleURL =
+      original.includes("podcasts.apple.com")
+        ? original
+        : "https://podcasts.apple.com/gb/search?term=" +
+          encodeURIComponent(title + " " + show);
+
+    const spotifyURL =
+      spotify[n] ||
+      (original.includes("open.spotify.com")
+        ? original
+        : "https://open.spotify.com/search/" +
+          encodeURIComponent(title + " " + show));
+
+    old.outerHTML =
+      `<div class="listen"><strong>Listen:</strong> ` +
+      `<a href="${appleURL}" target="_blank" rel="noreferrer">Apple Podcasts</a> · ` +
+      `<a href="${spotifyURL}" target="_blank" rel="noreferrer">Spotify</a> · ` +
+      `<a href="${webURL}" target="_blank" rel="noreferrer">Web</a>` +
+      `</div>`;
+  });
+
+})();
+</script>
 </body></html>
