@@ -993,6 +993,21 @@ particular religious or political viewpoint.
 </div>
 </form>
 </dialog>
+<dialog id="password-reset-dialog">
+<form class="dialog-body" id="password-reset-form">
+<h2>Set a new password</h2>
+<p id="password-reset-message">Choose a password of at least 12 characters.</p>
+<label class="field-label" for="new-password">New password</label>
+<input type="password" id="new-password" autocomplete="new-password" required minlength="12">
+<label class="checkbox-line"><input type="checkbox" id="show-new-password"><span>Show password</span></label>
+<p class="privacy-note">Your password is sent securely to Firebase Authentication. It is not stored on this website or in the listening database.</p>
+<p class="error-message" id="password-reset-error" hidden></p>
+<div class="tracker-actions">
+<button type="submit" id="password-reset-submit">Save new password</button>
+<button type="button" class="secondary" id="password-reset-close">Cancel</button>
+</div>
+</form>
+</dialog>
 <dialog id="access-request-dialog">
 <form class="dialog-body" id="access-request-form">
 <h2>Request family access</h2>
@@ -1030,7 +1045,7 @@ particular religious or political viewpoint.
 </div>
 </div>
 </dialog>
-<script type="module" src="progress.js?v=password-test-1"></script>
+<script type="module" src="progress.js?v=password-test-2"></script>
 <script src="install.js?v=1" defer></script>
 <script>
 document.querySelectorAll('[data-new-until]').forEach(function (badge) {
