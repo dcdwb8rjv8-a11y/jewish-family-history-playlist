@@ -209,7 +209,6 @@ function openNotes(article) {
   notesError.hidden = true;
   notesSaveStatus.textContent = '';
   notesDialog.showModal();
-  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) notesText.focus();
 }
 
 async function saveNotes() {
