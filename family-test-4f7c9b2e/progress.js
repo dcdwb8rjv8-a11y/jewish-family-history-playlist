@@ -35,6 +35,7 @@ const accessRequestCancel = $('#access-request-cancel');
 const notesDialog = $('#notes-dialog');
 const notesText = $('#notes-text');
 const notesTitle = $('#notes-title');
+const notesPrompt = $('#notes-prompt');
 const notesError = $('#notes-error');
 const notesSaveStatus = $('#notes-save-status');
 const notesClose = $('#notes-close');
@@ -56,6 +57,48 @@ let notesSaveTimer = null;
 let auth;
 let db;
 let firebase;
+
+const REFLECTION_PROMPTS = {
+  'the-shtetl-myth-and-reality': 'Kassow contrasts the real shtetl with both nostalgia and caricature. Which parts complicate the picture you had before, and what might daily life have felt like for your family?',
+  'remembering-vilna-introduction': 'Vilna was a centre of religious tradition, secular culture and Jewish politics. Which side of the city feels closest to the Vilna you imagined, and which would you like to explore further?',
+  'remembering-vilna-chapter-1-childhood-memories': 'Survivors recall Vilna through homes, streets, schools, synagogues and organisations. Which details make the city feel most alive, and what would you most like to know about your family’s life there?',
+  'chronicles-of-a-talmud-girl-boss': 'Devorah Romm’s story reveals publishing, technology and women’s work in Vilna. What does it add to a history often told through rabbis and yeshivas, and did anything challenge your assumptions?',
+  'in-the-shadow-of-the-shtetl-telling-the-story-of-small-town-jewish-life': 'Veidlinger reconstructs small-town life from many individual memories. What can oral testimony preserve that official records cannot, and whose voice from your own family would you most want to hear?',
+  'yankel-s-tavern-jews-liquor-and-life-in-the-kingdom-of-poland': 'Jewish tavern keepers worked between landowners, customers, neighbours and the state. Does this help you imagine the family’s tavern landlords differently, and what questions does it raise about their relationships with the wider community?',
+  'tradition-jewish-matchmaking-past-present': 'The episode presents marriage as romance, family strategy, economics and social expectation. Which pressures might have shaped marriages in your family, and what feels familiar or distant today?',
+  'the-lost-history-of-yiddish-popular-fiction': 'Popular Yiddish stories reveal what ordinary readers enjoyed, feared and laughed about. What surprised you about their tastes, and what might your relatives have read purely for pleasure?',
+  'episode-5-before-zionism': 'The episode explores migration to Ottoman Palestine before political Zionism became dominant. How does this earlier story complicate familiar accounts of Zionism, and what motives for migration stood out to you?',
+  'rethinking-kishinev-how-a-riot-changed-20th-century-jewish-history': 'Kishinev influenced Jewish politics, self-defence, migration and international opinion far beyond the city. Why do you think this event became so powerful in Jewish memory, and how might fear have shaped family decisions?',
+  'david-biale-hasidism-a-new-history': 'Biale describes Hasidism as a social movement as well as a religious one. What helps you understand its appeal to ordinary people, and does it change how you view the Hasidic strand of the family story?',
+  'kabbalah-and-the-rupture-of-modernity-an-existential-history-of-chabad-hasidism': 'Rubin presents Chabad from within the tradition as well as historically. Which ideas illuminate the Tumarkin connection, and where would you want another perspective or more context?',
+  'the-last-ships-from-hamburg-an-immigration-story': 'Millions of journeys depended on shipping lines, agents, money and practical decisions. Which part makes your relatives’ migration feel most real, and what would you most like to discover about their particular journey?',
+  'now-you-re-talking-cockney-yiddish': 'Yiddish and Cockney met in the streets of the East End and reshaped one another. Which words or stories capture that encounter for you, and how might language have affected your family’s first experience of Britain?',
+  'machloket': 'These voices tell Jewish migration and belonging through communities across Britain, not only London. Which experience echoes your family’s northern story, and what does belonging to a place mean across generations?',
+  'a-memory-map-of-jewish-manchester': 'Memories are attached to Manchester streets, shops and neighbourhoods. Which place would you most like to walk through, and what family memory would you add to such a map?',
+  'from-poland-to-paradise-lane': 'Blackburn’s small Jewish community included members of the Goldberg family. What felt most personal in this account, and how might life in a small northern community have shaped the family differently from life in a large city?',
+  'blackburn-s-vanished-jewish-community': 'This history traces a community through its synagogue, families and eventual disappearance. What makes a vanished community recoverable, and what would you want preserved about the Goldbergs’ Blackburn life?',
+  'liverpool-jewish-community-history': 'Liverpool became the place where the Gillman and Goldberg branches came together. Which features of the city’s Jewish life help explain that chapter, and what family questions does the setting prompt?',
+  'the-shtetl-crumbles': 'The episode recounts the roundup and murder at Eišiškės, including Jews brought from nearby towns such as Olkieniki. Which testimony stays with you, and how does knowing the local geography change the way you hold this part of the family story?',
+  'a-matter-of-savagery': 'This second account deepens the testimony and reconstruction of the Eišiškės massacre. What feels important to remember as an individual family story rather than only as a historical event?',
+  'combatants-and-protectors': 'The Bielski group combined resistance with rescuing families and sustaining community life in hiding. Which choices or tensions affected you most, and how does this broaden your idea of resistance and survival?',
+  'remembering-vilna-chapter-3-nazi-invasion': 'Survivors describe how persecution and mass murder followed the Nazi occupation of Vilna with terrifying speed. Which details convey that rupture most strongly, and how does hearing individual voices affect your understanding?',
+  'remembering-vilna-chapter-7-liquidation': 'The liquidation brought deportation, forced labour, hiding and escape to the forests. Which decisions or experiences stay with you, and what do they suggest about the limits and possibilities of individual choice?',
+  'remembering-vilna-chapter-10-aftermath': 'Survivors searched for relatives and began new lives after Vilna’s Jewish world was destroyed. What does rebuilding mean in these accounts, and how might this aftermath connect to your family’s later dispersal?',
+  'eisiskes-the-place-of-murder': 'Eišiškės was the place where relatives from Degsnės and Olkeniki were murdered. How does connecting names to a particular place affect you, and what form of remembrance feels most meaningful?',
+  'a-odz-ghetto-survivor-and-her-daughter-experience-memory-unearthed': 'Rose Fogel and her daughter respond to photographs of a place Rose survived. What happens when personal memory meets a historical image, and how might different generations see the same evidence differently?',
+  'henryk-ross-s-photographs-of-the-odz-ghetto': 'Ross photographed suffering alongside ordinary life and moments of dignity inside the ghetto. Which kind of image feels most revealing, and what responsibilities come with looking at these photographs?',
+  'the-dna-reunion-project': 'DNA can reconnect branches separated by migration and the Holocaust, while also revealing unexpected relationships. What would you hope to find, and are there discoveries you would approach cautiously?',
+  'arthur-kurzweil-the-persistence-of-memory': 'Kurzweil pursued a lost shtetl through archives, people and a return journey. Which part resembles your own family-history impulse, and what place or person would you follow next?',
+  'galicia-jewish-museum-director-jacek-stawiski': 'The museum tries to recover Jewish life in Galicia rather than presenting only its destruction. What balance between life, loss and renewal feels right to you when telling a family or community history?',
+  'southern-africa-jewish-genealogy': 'Lithuanian Jewish migration created families and communities across southern Africa. What might have drawn your relatives there, and which records or stories could help reconnect that branch?',
+  'australian-jewish-historical-society': 'The Australian and Tasmanian branches carried the family story to another continent. What would you most like to know about how they adapted, and which connections with the wider family may have endured?',
+  '473-the-other-side-of-ellis-island': 'Arrival at Ellis Island could involve inspection, detention, treatment or separation rather than an immediate welcome. Which part changes how you imagine arrival, and what might uncertainty have felt like for a family?',
+  '183-orchard-street-life-in-the-lower-east-side': 'Tenements, workshops and pushcarts shaped everyday immigrant life on the Lower East Side. Which details help you picture a new beginning, and what might your relatives have gained or missed there?',
+  'love-thy-neighbor-four-days-in-crown-heights-that-changed-new-york': 'The episode brings Lubavitch and Caribbean-American histories together in one neighbourhood and examines the tensions between them. Whose perspective changed or complicated your view, and what makes coexistence possible or fragile?',
+  'in-jewish-history': 'Indiana’s Jewish history includes small-town merchants and families far from the best-known centres. What might Jewish life in Bluffton have required, and how do unusual destinations change the family migration story?',
+  'jews-on-the-texas-frontier': 'Jewish settlers built lives in small Texas communities, with some arriving through the Galveston movement. What helps you imagine the Amarillo branch, and what might have been distinctive about creating Jewish life there?',
+  'exploring-jewish-life-in-uruguay-and-the-importance-of-stories': 'Porzecanski explores immigration, identity and the importance of stories in Jewish Uruguay. What might the Montevideo branch have preserved or reinvented, and which family story would you most want them to tell?'
+};
 
 function episodeId(article) {
   const title = article.querySelector('h3').childNodes[0].textContent.trim();
@@ -161,6 +204,7 @@ function openNotes(article) {
   currentNotesId = article.dataset.episodeId;
   const title = article.querySelector('h3').childNodes[0].textContent.trim();
   notesTitle.textContent = `Thoughts and reflections: ${title}`;
+  notesPrompt.textContent = REFLECTION_PROMPTS[currentNotesId] || 'What did this episode make you think or feel? What would you like to understand more deeply?';
   notesText.value = records.get(currentNotesId)?.notes || '';
   notesError.hidden = true;
   notesSaveStatus.textContent = '';
