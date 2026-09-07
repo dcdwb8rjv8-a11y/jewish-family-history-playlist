@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>The Freedman/Gillman Eastern European Jewish family history playlist</title>
+
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<meta name="theme-color" content="#173f35">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;background:#f5f0e6;color:#1e2924;
+  font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+header{
+  background:#173f35;color:#f8f2e6;padding:48px 20px;
+  border-bottom:1px solid #ffffff22
+}
+.wrap{max-width:780px;margin:auto}
+.kicker{
+  color:#d7b66f;font-size:12px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase
+}
+h1,h2,h3{font-family:Georgia,serif}
+h1{font-size:clamp(38px,7vw,62px);line-height:1.05;margin:18px 0 24px}
+header .blurb{color:#e7dfd1;font-size:18px}
+.key{
+  display:inline-block;border:1px solid #d7b66f88;border-radius:999px;
+  padding:8px 14px;color:#f4e6c6;margin-top:14px
+}
+main{padding:28px 18px 50px}
+h2{
+  border-left:4px solid #b04a36;padding-left:12px;
+  margin:38px 0 12px;color:#173f35;font-size:27px
+}
+article{
+  display:grid;grid-template-columns:40px 1fr;gap:16px;
+  background:#fffdf8;border:1px solid #1e292426;border-radius:18px;
+  padding:22px;margin:0 0 14px;box-shadow:0 2px 12px #1e29240d
+}
+article.recommended{background:#fffaf0;border-color:#c59a43}
+.number{
+  height:38px;width:38px;border-radius:50%;display:grid;place-items:center;
+  background:#173f35;color:white;font-weight:700
+}
+h3{font-size:21px;line-height:1.25;margin:0;color:#182e27}
+.star{color:#b17e19}
+.show{color:#9b4938;font-size:14px;font-weight:700;margin:5px 0 12px}
+article p{color:#48534e;margin:0 0 15px}
+.listen{font-size:14px;font-weight:700;color:#48534e}
+.listen a{color:#173f35;text-decoration:underline}
+.note{font-size:13px;color:#68736d;margin-top:8px}
+.ai-note{font-size:.62em;color:#9aa09d;vertical-align:super;margin-left:2px}
+.new-badge{
+  display:inline-block;margin-left:7px;padding:2px 6px;border-radius:999px;
+  background:#b04a36;color:#fff;font:700 10px/1.4 system-ui,-apple-system,sans-serif;
+  letter-spacing:.08em;vertical-align:middle
+}
+.tracker-intro,.tracker-panel{
+  background:#fffdf8;border:1px solid #1e292426;border-radius:16px;
+  padding:18px 20px;margin:0 0 16px
+}
+.tracker-intro h2,.tracker-panel h2{
+  border:0;padding:0;margin:0 0 6px;font-size:22px
+}
+.tracker-intro p,.tracker-panel p{margin:0 0 12px;color:#48534e}
+.tracker-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tracker-actions[hidden]{display:none}
+button,.button{
+  border:1px solid #173f35;border-radius:999px;background:#173f35;color:#fff;
+  padding:9px 14px;font:700 14px/1.2 system-ui,-apple-system,sans-serif;cursor:pointer
+}
+button.secondary{background:transparent;color:#173f35}
+button:disabled{cursor:not-allowed;opacity:.55}
+.account-status{font-size:14px;color:#59635e}
+.field-label{display:block;font-weight:700;margin:14px 0 6px}
+input[type="email"]{
+  width:100%;border:1px solid #68736d;border-radius:10px;padding:11px 12px;
+  font:16px/1.4 system-ui,-apple-system,sans-serif
+}
+.checkbox-line{display:flex;gap:9px;align-items:flex-start;margin:16px 0}
+.checkbox-line input{margin-top:5px}
+#listened-archive{margin:0 0 18px}
+#listened-archive summary{
+  cursor:pointer;color:#173f35;font:700 18px/1.3 Georgia,serif;
+  padding:14px 18px;background:#fffdf8;border:1px solid #1e292426;border-radius:14px
+}
+#listened-items{padding-top:14px}
+#next-episode[hidden],#listened-archive[hidden],.tracker-intro[hidden]{display:none}
+#admin-panel{margin:0 0 18px}
+#admin-panel summary{cursor:pointer;font-weight:700;color:#173f35}
+.request-list{list-style:none;margin:12px 0;padding:0}
+.request-list li{padding:12px 0;border-top:1px solid #1e29241c}
+.request-list .tracker-actions{margin-top:8px}
+#admin-panel h3{font:700 17px/1.3 Georgia,serif;margin:18px 0 0}
+.episode-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid #1e29241c}
+.episode-tools button{font-size:13px;padding:7px 11px}
+.episode-tools .notes-button{background:transparent;color:#173f35}
+dialog{
+  width:min(92vw,560px);border:0;border-radius:18px;padding:0;
+  background:#fffdf8;color:#1e2924;box-shadow:0 18px 70px #0005
+}
+dialog::backdrop{background:#10251f99}
+.dialog-body{padding:24px}
+.dialog-body h2{border:0;padding:0;margin:0 0 12px}
+.dialog-body textarea{
+  width:100%;min-height:180px;resize:vertical;border:1px solid #68736d;
+  border-radius:10px;padding:12px;font:16px/1.5 system-ui,-apple-system,sans-serif
+}
+.privacy-note{font-size:13px;color:#68736d}
+.error-message{color:#8b2f22;font-weight:600}
+footer{
+  border-top:1px solid #1e292426;color:#59635e;
+  padding:28px 0;margin-top:40px
+}
+@media(max-width:520px){
+  header{padding-top:36px}
+  article{padding:18px;grid-template-columns:34px 1fr}
+  .number{width:34px;height:34px}
+  h3{font-size:19px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="wrap">
+<p class="kicker">A family listening journey</p>
+
+<h1>The Freedman/Gillman Eastern European Jewish family history playlist</h1>
+
+<p class="blurb">
+Two family worlds run through this journey. The Gillman and Goldberg families
+trace their roots through Eastern Europe, with the Goldbergs later settling in
+Blackburn and the Gillman/Rafkin line including Chabad ancestors and relatives
+whose journeys reached New York, Bluffton, Amarillo and Montevideo. This line
+also includes the Tumarkin family, among them the last chief Chabad rabbi of
+Kharkiv. The Gillman and Goldberg families eventually came together in Liverpool.
+</p>
+
+<p class="blurb">
+The Freedman family traces its roots through Vilnius, Trakai and the surrounding
+towns and villages, among rabbis, shochets, butchers, teachers and tavern
+landlords, before later generations travelled through Manchester to Blackpool.
+</p>
+
+<p class="blurb">
+Many relatives remained in Eastern Europe. On the Freedman side, family remained
+in Degsnės and Olkeniki and were murdered at Eišiškės. On the Gillman/Goldberg
+side, relatives remained across Poland and Belarus; some were murdered at Łódź,
+while members of the Tumarkin Chabad family were among both those murdered and
+those who survived.
+</p>
+
+<p class="key">★ Particularly good places to start</p>
+</div>
+</header>
+
+<main class="wrap">
+
+<section class="tracker-intro" id="tracker-intro">
+<h2>Track your listening journey</h2>
+<p>If you want to track your progress and notes, create an account or log in here. You can also browse and listen without an account.</p>
+<div class="tracker-actions">
+<button type="button" id="login-button">Request access or log in</button>
+<span class="account-status" id="account-status"></span>
+</div>
+<div class="tracker-actions" id="account-actions" hidden>
+<button type="button" class="secondary" id="download-button">Download my journey</button>
+<button type="button" class="secondary" id="delete-account-button">Delete my account and data</button>
+</div>
+<p class="privacy-note"><strong>About your privacy:</strong> Your listening history and reflections are private from other family members. The family administrator (Jon) can see your email address and can access your listening history and reflections when administering the website. This information is stored using Google Firebase. You can download your information or permanently delete your account and data at any time. We recommend keeping anything particularly private outside this website.</p>
+<p class="error-message" id="tracker-error" hidden></p>
+</section>
+
+<details id="listened-archive" hidden>
+<summary>Listened episodes: <span id="listened-count">0 of 0</span></summary>
+<div id="listened-items"></div>
+</details>
+
+<details class="tracker-panel" id="admin-panel" hidden>
+<summary>Family access <span id="request-count"></span></summary>
+<p>Approve or decline requests and manage family members who can save progress and reflections.</p>
+<h3>Pending requests</h3>
+<ul class="request-list" id="request-list"></ul>
+<h3>Approved family members</h3>
+<ul class="request-list" id="member-list"></ul>
+</details>
+
+<section class="tracker-panel" id="next-episode" hidden>
+<h2>Your next episode</h2>
+<div id="next-episode-item"></div>
+</section>
+
+<h2>Before the journey: what was a shtetl?</h2>
+
+<article class="recommended">
+<div class="number">1</div>
+<div>
+<h3>The Shtetl: Myth and Reality <span class="star">★</span></h3>
+<p class="show">New Books Network · Samuel Kassow</p>
+<p>
+Historian Samuel Kassow strips away both nostalgia and caricature to ask what
+the East European Jewish small town was actually like: its people, institutions,
+conflicts and changing relationship with the wider world.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/the-shtetl-myth-and-reality-with-samuel-kassow/id425676769?i=1000751886958" target="_blank">Apple Podcasts</a> ·
+<a href="https://open.spotify.com/episode/0LWYMx5GLLwzIcG9uvGX2o" target="_blank">Spotify</a> ·
+<a href="https://newbooksnetwork.com/the-shtetl" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>The Freedman family: Vilnius and the Lithuanian Jewish world</h2>
+
+<article class="recommended">
+<div class="number">2</div>
+<div>
+<h3>Remembering Vilna: Introduction <span class="star">★</span></h3>
+<p class="show">Yale Fortunoff Video Archive · YIVO</p>
+<p>
+An 11-minute introduction to the city known as the Jerusalem of Lithuania and
+to the voices that will tell its story. It establishes Vilna as simultaneously
+a centre of religious tradition, modern secular culture and Jewish politics.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/introduction-remembering-vilna/id1479564642?i=1000628633322" target="_blank">Apple Podcasts</a> ·
+<a href="https://www.fortunoff.library.yale.edu/podcast/remembering-vilna-part-one/introduction-remembering-vilna/" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article class="recommended">
+<div class="number">3</div>
+<div>
+<h3>Remembering Vilna, Chapter 1: Childhood Memories <span class="star">★</span></h3>
+<p class="show">Yale Fortunoff Video Archive · YIVO</p>
+<p>
+Probably the single most useful Vilna episode for this family primer. Survivors
+remember pre-war neighbourhoods, schools, synagogues, political organisations
+and the diversity of Jewish life before 1939.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/chapter-1-childhood-memories/id1479564642?i=1000628643874" target="_blank">Apple Podcasts</a> ·
+<a href="https://open.spotify.com/episode/4vjZ8K1NpwMjegAXQgUAlH" target="_blank">Spotify</a> ·
+<a href="https://fortunoff.library.yale.edu/education/podcasts/" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">4</div>
+<div>
+<h3>Chronicles of a Talmud Girl Boss <span class="new-badge" data-new-until="2026-09-20">NEW</span></h3>
+<p class="show">Jewish History Nerds</p>
+<p>
+Devorah Romm’s publishing house shaped what Jews read and printed editions of
+the Talmud used across the Jewish world. Her story opens up Vilna’s businesses,
+books, technology and women’s lives beyond its rabbis and yeshivas.<sup class="ai-note" title="AI-written curatorial note" aria-label="AI-written curatorial note">AI</sup>
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/gb/podcast/chronicles-of-a-talmud-girl-boss/id1654644528?i=1000643789750" target="_blank">Apple Podcasts</a> ·
+<a href="https://open.spotify.com/episode/7AL3q6QUs4WeIhc1zXNHPA" target="_blank">Spotify</a> ·
+<a href="https://unpacked.media/chronicles-of-a-talmud-girl-boss/" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">5</div>
+<div>
+<h3>In the Shadow of the Shtetl: Telling the Story of Small-Town Jewish Life</h3>
+<p class="show">The Shmooze · Yiddish Book Center · Jeffrey Veidlinger</p>
+<p>
+A very listenable 21-minute conversation about reconstructing traditional
+small-town Jewish life from interviews with more than 100 Yiddish speakers.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/episode-0076-in-the-shadow-of-the-shtetl-telling/id575179085?i=1000362673509" target="_blank">Apple Podcasts</a> ·
+<a href="https://www.yiddishbookcenter.org/language-literature-culture/the-shmooze/76-shadow-shtetl-telling-story-small-town-jewish-life" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>Work, trade and everyday life</h2>
+
+<article>
+<div class="number">6</div>
+<div>
+<h3>Yankel’s Tavern: Jews, Liquor, and Life in the Kingdom of Poland <span class="new-badge" data-new-until="2026-09-20">NEW</span></h3>
+<p class="show">New Books Network · Glenn Dynner · 32 min</p>
+<p>
+The family history includes tavern landlords. Glenn Dynner’s research explains
+what that occupation could involve: Jewish relationships with landowners and
+Christian neighbours, government attempts to remove Jews from the liquor trade,
+and the informal arrangements that sometimes kept taverns operating. The
+research concerns the nineteenth-century Kingdom of Poland rather than Vilnius
+or Trakai, so it offers illuminating comparative context rather than a direct
+account of the family’s locality.<sup class="ai-note" title="AI-written curatorial note" aria-label="AI-written curatorial note">AI</sup>
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/glenn-dynner-yankels-tavern-jews-liquor-and-life-in/id425369034?i=1000377542742" target="_blank">Apple Podcasts</a> ·
+<a href="https://open.spotify.com/episode/30JrGRoJDcnZLXAWmjbX6j" target="_blank">Spotify</a> ·
+<a href="https://newbooksnetwork.com/glenn-dynner-yankels-tavern-jews-liquor-and-life-in-the-kingdom-of-poland-oxford-up-2014" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>Life, family and popular culture</h2>
+
+<article>
+<div class="number">7</div>
+<div>
+<h3>Tradition! Jewish Matchmaking, Past &amp; Present</h3>
+<p class="show">Adventures in Jewish Studies</p>
+<p>
+Marriage as family strategy, economics, social expectation and romance, with
+historians including Elisheva Carlebach, Naomi Seidman and Shulamit Magnus.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/tradition-jewish-matchmaking-past-present/id1445592926?i=1000777741914" target="_blank">Apple Podcasts</a> ·
+<a href="https://associationforjewishstudies.org/podcasts/tradition%21-jewish-matchmaking-past-present" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article class="recommended">
+<div class="number">8</div>
+<div>
+<h3>The Lost History of Yiddish Popular Fiction <span class="star">★</span></h3>
+<p class="show">Adventures in Jewish Studies</p>
+<p>
+Cheap novels, newspapers, romance and entertainment reveal what ordinary
+Yiddish-speaking Jews enjoyed, worried about and laughed at.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/the-lost-history-of-yiddish-popular-fiction/id1445592926?i=1000761567784" target="_blank">Apple Podcasts</a> ·
+<a href="https://www.associationforjewishstudies.org/podcasts/the-lost-history-of-yiddish-popular-fiction" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>Pressure, politics and departure</h2>
+
+<article>
+<div class="number">9</div>
+<div>
+<h3>Episode 5: Before Zionism</h3>
+<p class="show">Jewish Questions · University of Washington · Liora Halperin</p>
+<p>
+A concise look at Russian antisemitism, the Pale of Settlement and the ways
+nineteenth-century Russian Jewish experiences shaped early migration to Ottoman
+Palestine before political Zionism became dominant.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/episode-5-before-zionism/id1215857457?i=1000507628292" target="_blank">Apple Podcasts</a> ·
+<a href="https://jewishstudies.washington.edu/jewish-questions-podcast-anti-semitism/" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">10</div>
+<div>
+<h3>Rethinking Kishinev: How a Riot Changed 20th Century Jewish History</h3>
+<p class="show">YIVO Institute for Jewish Research</p>
+<p>
+Why did the murder of 49 people in Kishinev in 1903 reverberate so widely?
+This explores the pogrom's effect on Jewish politics, self-defence, migration,
+international opinion and the way Russian Jewish history has subsequently been told.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/gb/podcast/rethinking-kishinev-how-a-riot-changed-20th-century/id1880730483?i=1000758809998" target="_blank">Apple Podcasts</a> ·
+<a href="https://www.yivo.org/WP2014-Rethinking-Kishinev-Lecture" target="_blank">YIVO video</a> ·
+<a href="https://newbooksnetwork.com/rethinking-kishinev-how-a-riot-changed-20th-century-jewish-history" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>The Gillman/Rafkin family: Hasidism and Chabad</h2>
+
+<article>
+<div class="number">11</div>
+<div>
+<h3>David Biale: Hasidism – A New History</h3>
+<p class="show">New Books in Jewish Studies</p>
+<p>
+A conversational introduction to the social as well as religious history of
+Hasidism: how it emerged, spread and became one of the major forms of modern
+East European Judaism.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/david-biale-hasidism-a-new-history-princeton-up-2018/id425369034?i=1000403358424" target="_blank">Apple Podcasts</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">12</div>
+<div>
+<h3>Kabbalah and the Rupture of Modernity: An Existential History of Chabad Hasidism</h3>
+<p class="show">New Books in Jewish Studies · Eli Rubin</p>
+<p>
+A deeper look at Chabad's development. Rubin is both a historian of Chabad and
+himself part of the Chabad world, so this is included as a knowledgeable
+perspective rather than presented as a viewpoint-free account.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/gb/podcast/eli-rubin-kabbalah-and-the-rupture-of/id425369034?i=1000702284090" target="_blank">Apple Podcasts</a> ·
+<a href="https://open.spotify.com/episode/5uDA9vkUfG24BOpwz47F64" target="_blank">Spotify</a>
+</div>
+</div>
+</article>
+
+<h2>How the migration actually happened</h2>
+
+<article class="recommended">
+<div class="number">13</div>
+<div>
+<h3>The Last Ships From Hamburg: An Immigration Story <span class="star">★</span></h3>
+<p class="show">The Bowery Boys · Steven Ujifusa</p>
+<p>
+The episode that inspired this playlist. An accessible conversation about the
+shipping companies, agents, finance and routes that enabled more than two
+million East European Jews to leave.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/the-last-ships-from-hamburg-an-immigration-story/id258530615?i=1000738750378" target="_blank">Apple Podcasts</a> ·
+<a href="https://open.spotify.com/episode/7JSdMXsN4FaJJfYY8gP4Ww" target="_blank">Spotify</a>
+</div>
+</div>
+</article>
+
+<h2>A short first stop: Whitechapel</h2>
+
+<article class="recommended">
+<div class="number">14</div>
+<div>
+<h3>Now You're Talking Cockney Yiddish <span class="star">★</span></h3>
+<p class="show">The Cockney Yiddish Podcast · Queen Mary University of London</p>
+<p>
+Funny, lively and research-based: the strange meeting of Yiddish and Cockney
+in the East End where part of the family first encountered Britain.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/gb/podcast/the-cockney-yiddish-podcast/id1791774082" target="_blank">Apple Podcasts</a> ·
+<a href="https://cockneyyiddish.org/" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>North to Lancashire</h2>
+
+<article>
+<div class="number">15</div>
+<div>
+<h3>Machloket</h3>
+<p class="show">British Jewish oral-history project</p>
+<p>
+Jewish migration, memory and belonging told through communities around Britain,
+helping move the story beyond the familiar East End narrative.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/gb/podcast/machloket/id1733642386" target="_blank">Apple Podcasts</a>
+</div>
+</div>
+</article>
+
+<h2>The Freedman family: Manchester and Blackpool</h2>
+
+<article class="recommended">
+<div class="number">16</div>
+<div>
+<h3>A Memory Map of Jewish Manchester <span class="star">★</span></h3>
+<p class="show">Manchester Jewish Museum · oral history</p>
+<p>
+Memories tied to streets and neighbourhoods in Cheetham Hill, Strangeways and
+Hightown illuminate the Manchester stage of the Freedman family journey.
+</p>
+<div class="listen">
+<strong>Open:</strong>
+<a href="https://jewishmanchestermemorymap.org/" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>The Goldbergs: Blackburn</h2>
+
+<article class="recommended">
+<div class="number">17</div>
+<div>
+<h3>From Poland to Paradise Lane <span class="star">★</span></h3>
+<p class="show">Hilary Thomas · Jewish TALK JSCN</p>
+<p>
+Hilary Thomas discusses her history of Blackburn's vanished Jewish community.
+The Goldbergs in her research belong to the family's maternal Goldberg line,
+making this one of the most directly personal selections.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/from-poland-to-paradise-lane/id1471551362?i=1000443631296" target="_blank">Apple Podcasts</a> ·
+<a href="https://open.spotify.com/episode/79ZprvD0N2m8qMOiWQqKVa" target="_blank">Spotify</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">18</div>
+<div>
+<h3>Blackburn's Vanished Jewish Community</h3>
+<p class="show">JCR-UK · JewishGen</p>
+<p>
+A compact local-history companion covering the small community in which the
+Goldbergs settled, its synagogue and its eventual disappearance.
+</p>
+<div class="listen">
+<strong>Open:</strong>
+<a href="https://www.jewishgen.org/jcr-uk/Community/Blackburn/index.htm" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>The Gillmans and Goldbergs: Liverpool</h2>
+
+<article>
+<div class="number">19</div>
+<div>
+<h3>Liverpool Jewish community history</h3>
+<p class="show">JCR-UK · JewishGen</p>
+<p>
+Background to the much larger northern Jewish community in which the Gillman
+and Goldberg branches ultimately came together.
+</p>
+<div class="listen">
+<strong>Open:</strong>
+<a href="https://www.jewishgen.org/jcr-uk/" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>Relatives who remained in Eastern Europe</h2>
+
+<article>
+<div class="number">20</div>
+<div>
+<h3>The Shtetl Crumbles <span class="new-badge" data-new-until="2026-09-20">NEW</span></h3>
+<p class="show">12 Years That Shook the World · United States Holocaust Memorial Museum · 29 min</p>
+<p>
+Members of the family lived in Degsnės and Olkeniki, rather than Eišiškės
+itself, but were taken to Eišiškės to be murdered. Together with the following
+episode, this account explains the roundup, detention and mass shootings carried
+out there in September 1941. The Museum’s accompanying research confirms that
+hundreds of Jews were brought from surrounding communities, explicitly including
+Olkieniki. Survivor testimony gives a detailed account of the massacre and of
+the very small number who escaped or survived.<sup class="ai-note" title="AI-written curatorial note" aria-label="AI-written curatorial note">AI</sup>
+</p>
+<p class="note"><strong>Content warning:</strong> These episodes contain detailed testimony about mass shootings, violence against children and sexual violence.</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/gb/podcast/the-shtetl-crumbles/id1447647280?i=1000727328367" target="_blank">Apple Podcasts</a> ·
+<a href="https://open.spotify.com/episode/1tw4l8Dp2IsawV2pQMAq7C" target="_blank">Spotify</a> ·
+<a href="https://www.ushmm.org/en/learn/podcasts-and-audio/12-years-that-shook-the-world/the-shtetl-crumbles" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">21</div>
+<div>
+<h3>“A Matter of Savagery” <span class="new-badge" data-new-until="2026-09-20">NEW</span></h3>
+<p class="show">12 Years That Shook the World · United States Holocaust Memorial Museum · 27 min</p>
+<p>
+The second part of the Museum’s account of the Eišiškės massacre, continuing
+the testimony and historical reconstruction introduced in <em>The Shtetl
+Crumbles</em>.
+</p>
+<p class="note"><strong>Content warning:</strong> This episode contains detailed testimony about mass shootings, violence against children and sexual violence.</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/gb/podcast/a-matter-of-savagery/id1447647280?i=1000728378006" target="_blank">Apple Podcasts</a> ·
+<a href="https://open.spotify.com/episode/68i8wr4PGc2QHP1A6fclbA" target="_blank">Spotify</a> ·
+<a href="https://www.ushmm.org/en/learn/podcasts-and-audio/12-years-that-shook-the-world/a-matter-of-savagery" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">22</div>
+<div>
+<h3>Combatants and Protectors <span class="new-badge" data-new-until="2026-09-20">NEW</span></h3>
+<p class="show">12 Years That Shook the World · United States Holocaust Memorial Museum</p>
+<p>
+Some members of the wider family joined partisan groups or survived in hiding
+in Belarus. This episode tells how the Bielski brothers combined armed resistance
+with collective rescue, eventually sheltering more than 1,200 Jews in the
+Naliboki Forest. It also explores the difficult realities behind that survival:
+relations with local villagers and Soviet partisans, securing food, enforcing
+discipline and preserving family, education, work and religious life under
+extraordinary conditions.<sup class="ai-note" title="AI-written curatorial note" aria-label="AI-written curatorial note">AI</sup>
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/gb/podcast/combatants-and-protectors/id1447647280?i=1000518954913" target="_blank">Apple Podcasts</a> ·
+<a href="https://open.spotify.com/episode/2clYgtzVv7yjzqsYZW7mkT" target="_blank">Spotify</a> ·
+<a href="https://www.ushmm.org/en/learn/podcasts-and-audio/12-years-that-shook-the-world/combatants-and-protectors" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">23</div>
+<div>
+<h3>Remembering Vilna, Chapter 3: Nazi Invasion</h3>
+<p class="show">Yale Fortunoff Video Archive · YIVO</p>
+<p>
+The story moves from pre-war life to June 1941, when Nazi Germany occupied
+Vilna and rapidly imposed persecution, forced identification and mass murder.
+</p>
+<div class="listen">
+<strong>Open:</strong>
+<a href="https://www.fortunoff.library.yale.edu/podcast/chapter-3-nazi-invasion/" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article class="recommended">
+<div class="number">24</div>
+<div>
+<h3>Remembering Vilna, Chapter 7: Liquidation <span class="star">★</span></h3>
+<p class="show">Yale Fortunoff Video Archive · YIVO</p>
+<p>
+The liquidation of the Vilna ghetto: deportation, forced labour, hiding and
+escape into the forests to join the partisans. This is one of the key Holocaust
+episodes rather than requiring listeners to tackle the entire series.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/chapter-7-liquidation/id1479564642?i=1000633518296" target="_blank">Apple Podcasts</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">25</div>
+<div>
+<h3>Remembering Vilna, Chapter 10: Aftermath</h3>
+<p class="show">Yale Fortunoff Video Archive · YIVO</p>
+<p>
+Survivors search for family and begin new lives after the destruction of the
+city's Jewish community: a natural bridge from the Holocaust to the family's
+post-war dispersal.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/chapter-10-aftermath/id1479564642?i=1000635767118" target="_blank">Apple Podcasts</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">26</div>
+<div>
+<h3>Eišiškės: the place of murder</h3>
+<p class="show">JewishGen Yizkor Book Project</p>
+<p>
+Members of the Freedman family remained in Degsnės and Olkeniki and were
+murdered at Eišiškės. This source concerns the place of their murder rather
+than their former homes.
+</p>
+<div class="listen">
+<strong>Open:</strong>
+<a href="https://www.jewishgen.org/yizkor/ybip/YBIP_Eisiskes.html" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>Łódź and the Gillman/Goldberg relatives who remained in Poland</h2>
+
+<article class="recommended">
+<div class="number">27</div>
+<div>
+<h3>A Łódź Ghetto Survivor and Her Daughter Experience “Memory Unearthed” <span class="star">★</span></h3>
+<p class="show">Stories Survive · Museum of Jewish Heritage</p>
+<p>
+Survivor Rose Fogel and her daughter encounter Henryk Ross's photographs of the
+Łódź ghetto and discuss what those images mean to someone who actually lived there.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://mjhnyc.org/stories-survive-podcast-series/" target="_blank">Museum episode page</a>
+</div>
+<p class="note">
+The Museum's old iTunes link for this episode no longer resolves reliably, so
+a broken Apple link has not been included.
+</p>
+</div>
+</article>
+
+<article>
+<div class="number">28</div>
+<div>
+<h3>Henryk Ross's Photographs of the Łódź Ghetto</h3>
+<p class="show">The Lonely Palette</p>
+<p>
+A very accessible 25-minute companion to the Museum episode, looking closely at
+Ross's photographs and what they reveal about everyday life, dignity and memory
+inside the ghetto.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/ep-20-henryk-rosss-photographs-of-the-lodz-ghetto-1940-44/id1110780638?i=1000389532717" target="_blank">Apple Podcasts</a> ·
+<a href="https://www.thelonelypalette.com/episode-20-ross" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>Reconnecting a family scattered by migration and the Holocaust</h2>
+
+<article class="recommended">
+<div class="number">29</div>
+<div>
+<h3>The DNA Reunion Project <span class="star">★</span></h3>
+<p class="show">Gesher Galicia Today · Jennifer Mendelsohn &amp; Adina Newman</p>
+<p>
+Two specialist Ashkenazi Jewish genealogists explain how DNA can identify lost
+branches and reconnect families separated by the Holocaust.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/ca/podcast/gesher-galicia-today/id1706155044" target="_blank">Apple Podcasts</a> ·
+<a href="https://geshergalicia.podbean.com/e/jennifer-mendelsohn-and-adina-newman-of-the-cjh-dna-reunion-project%E2%80%94in-conversation-with-steven-turner/" target="_blank">Specific episode</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">30</div>
+<div>
+<h3>Arthur Kurzweil: The Persistence of Memory</h3>
+<p class="show">Gesher Galicia Today</p>
+<p>
+Kurzweil describes becoming obsessed with recovering his father's lost shtetl,
+Dobromyl: searching libraries, tracking down emigrants and eventually returning
+to the place itself. Particularly good as a companion to doing one's own family history.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/ca/podcast/gesher-galicia-today/id1706155044" target="_blank">Apple Podcasts</a> ·
+<a href="https://geshergalicia.podbean.com/e/conversation-with-arthur-kurzweil/" target="_blank">Specific episode</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">31</div>
+<div>
+<h3>Galicia Jewish Museum Director Jacek Stawiski</h3>
+<p class="show">Gesher Galicia Today</p>
+<p>
+A historian and former BBC World Service journalist discusses how the Galicia
+Jewish Museum reconstructs Jewish life and memory in the region rather than
+treating it solely as a landscape of destruction.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/py/podcast/galicia-jewish-museum-director-jacek-stawiski-with/id1706155044?i=1000657200608" target="_blank">Apple Podcasts</a>
+</div>
+</div>
+</article>
+
+<h2>South Africa and Australia</h2>
+
+<article>
+<div class="number">32</div>
+<div>
+<h3>Southern Africa Jewish Genealogy</h3>
+<p class="show">JewishGen SA-SIG</p>
+<p>
+A practical research route into the family's South African branches and the
+much larger story of Lithuanian Jewish migration to southern Africa.
+</p>
+<div class="listen">
+<strong>Open:</strong>
+<a href="https://www.jewishgen.org/safrica/" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">33</div>
+<div>
+<h3>Australian Jewish Historical Society</h3>
+<p class="show">Family-history research companion</p>
+<p>
+Records and historical material for following the branches that reached
+Australia and Tasmania.
+</p>
+<div class="listen">
+<strong>Open:</strong>
+<a href="https://www.ajhs.com.au/" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>The American route: arrival and New York</h2>
+
+<article class="recommended">
+<div class="number">34</div>
+<div>
+<h3>#473 The Other Side of Ellis Island <span class="star">★</span></h3>
+<p class="show">The Bowery Boys</p>
+<p>
+What happened after migrants arrived: processing, medical inspection and the
+Ellis Island hospital where those who did not immediately pass the tests could
+be detained.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/473-the-other-side-of-ellis-island/id258530615?i=1000737725231" target="_blank">Apple Podcasts</a> ·
+<a href="https://www.boweryboyshistory.com/2025/11/the-other-side-of-ellis-island-a-story-of-american-immigration.html" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">35</div>
+<div>
+<h3>#183 Orchard Street: Life in the Lower East Side</h3>
+<p class="show">The Bowery Boys</p>
+<p>
+Tenements, home workshops, pushcarts and everyday immigrant life in the
+neighbourhood most associated with the great Eastern European Jewish migration.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/183-orchard-street-life-in-the-lower-east-side/id258530615?i=1000343407659" target="_blank">Apple Podcasts</a> ·
+<a href="https://www.boweryboyshistory.com/2015/05/the-grand-tale-of-orchard-street-and-life-on-the-lower-east-side.html" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>The Gillman/Rafkin Chabad descendants in New York</h2>
+
+<article>
+<div class="number">36</div>
+<div>
+<h3>Love Thy Neighbor: Four Days in Crown Heights That Changed New York</h3>
+<p class="show">Collier Meyerson · Pineapple Street Studios</p>
+<p>
+A narrative history of Crown Heights that treats both the Lubavitch and
+Caribbean-American migrations seriously and examines the neighbourhood they
+came to share.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/gb/podcast/love-thy-neighbor-four-days-in-crown-heights-that-changed/id1606986619" target="_blank">Apple Podcasts</a>
+</div>
+</div>
+</article>
+
+<h2>Gillman and Rafkin: America beyond New York</h2>
+
+<article class="recommended">
+<div class="number">37</div>
+<div>
+<h3>IN Jewish History <span class="star">★</span></h3>
+<p class="show">Indiana Jewish Historical Society</p>
+<p>
+This is a much better fit for the unusual family branch that settled in
+Bluffton. The Indiana Jewish Historical Society covers Jewish life across the
+state, including small communities, merchants and families outside Indianapolis.
+Its archive specifically contains material from Bluffton.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/in-jewish-history/id1566739781" target="_blank">Apple Podcasts</a> ·
+<a href="https://www.ijhs.org/" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article class="recommended">
+<div class="number">38</div>
+<div>
+<h3>Jews on the Texas Frontier <span class="star">★</span></h3>
+<p class="show">Talking Texas History · Bryan Stone</p>
+<p>
+A relaxed conversation with historian Bryan Stone about Jewish settlement,
+small Texas communities and the Galveston migration movement: the right
+regional frame for the Amarillo branch.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/jews-on-the-texas-frontier/id1640194901?i=1000703651035" target="_blank">Apple Podcasts</a> ·
+<a href="https://www.buzzsprout.com/2030352/episodes/16967761-jews-on-the-texas-frontier" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<h2>The South American branch</h2>
+
+<article class="recommended">
+<div class="number">39</div>
+<div>
+<h3>Exploring Jewish Life in Uruguay and the Importance of Stories <span class="star">★</span></h3>
+<p class="show">Fulbright Forward · Dr Teresa Porzecanski</p>
+<p>
+Jewish Uruguayan anthropologist Teresa Porzecanski talks accessibly about
+immigration, identity, oral history and Jewish life in Uruguay: context for the
+family branch that reached Montevideo.
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/fulbright-forward-a-diversity-podcast/id1539020976" target="_blank">Apple Podcasts</a> ·
+<a href="https://fulbrightforward.buzzsprout.com/1419361/episodes/10675156-exploring-jewish-life-in-uruguay-and-the-importance-of-stories-with-dr-teresa-porzecanski" target="_blank">Specific episode</a>
+</div>
+<p class="note">
+The episode itself is linked directly above. A stable Apple deep-link to this
+individual 2022 episode could not be verified, so the Apple link goes to the
+programme.
+</p>
+</div>
+</article>
+
+<footer>
+<p><strong>About this playlist</strong></p>
+<p>
+This is a family-history listening journey rather than a comprehensive history
+of Eastern European Jewry. It deliberately mixes accessible public history,
+oral history, museums, archives, genealogy and scholarship. Items are chosen
+for reliability, relevance and listenability, not because they represent any
+particular religious or political viewpoint.
+</p>
+</footer>
+
+</main>
+<dialog id="login-dialog">
+<form class="dialog-body" id="login-form">
+<h2>Request access or log in</h2>
+<p>Enter your email address. We’ll send you a secure one-time link with no password to remember.</p>
+<label class="field-label" for="login-email">Email address</label>
+<input type="email" id="login-email" autocomplete="email" required>
+<label class="checkbox-line">
+<input type="checkbox" id="privacy-confirmation" required>
+<span>I understand that the family administrator (Jon) can access my account email, listening history and reflections.</span>
+</label>
+<p class="privacy-note">If this email has not yet been approved, verifying it will send an access request to Jon. You will not be able to save progress or reflections until it is approved.</p>
+<p class="error-message" id="login-error" hidden></p>
+<div class="tracker-actions">
+<button type="submit">Email me a login link</button>
+<button type="button" class="secondary" id="login-cancel">Cancel</button>
+</div>
+</form>
+</dialog>
+<dialog id="notes-dialog">
+<div class="dialog-body">
+<h2 id="notes-title">Thoughts and reflections</h2>
+<p>What did this episode make you think or feel? What would you like to understand more deeply?</p>
+<textarea id="notes-text" aria-labelledby="notes-title"></textarea>
+<p class="privacy-note">These notes are hidden from other listeners, but the site administrator can access them when maintaining the service. Keep particularly private reflections somewhere you control.</p>
+<p class="error-message" id="notes-error" hidden></p>
+<p class="account-status" id="notes-save-status"></p>
+<div class="tracker-actions">
+<button type="button" id="notes-close">Close</button>
+</div>
+</div>
+</dialog>
+<script type="module" src="progress.js"></script>
+<script>
+document.querySelectorAll('[data-new-until]').forEach(function (badge) {
+  var end = new Date(badge.dataset.newUntil + 'T23:59:59');
+  if (new Date() > end) badge.hidden = true;
+});
+</script>
+</body>
+</html>
