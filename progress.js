@@ -58,6 +58,12 @@ let auth;
 let db;
 let firebase;
 
+loginButton.addEventListener('click', async () => {
+  showError();
+  if (currentUser && auth && firebase) await firebase.signOut(auth);
+  else if (!loginDialog.open) loginDialog.showModal();
+});
+
 const REFLECTION_PROMPTS = {
   'the-shtetl-myth-and-reality': 'Kassow contrasts the real shtetl with both nostalgia and caricature. Which parts complicate the picture you had before, and what might daily life have felt like for your family?',
   'remembering-vilna-introduction': 'Vilna was a centre of religious tradition, secular culture and Jewish politics. Which side of the city feels closest to the Vilna you imagined, and which would you like to explore further?',
@@ -527,11 +533,6 @@ async function start() {
   auth = authModule.getAuth(app);
   db = storeModule.getFirestore(app);
   await authModule.setPersistence(auth, authModule.browserLocalPersistence);
-  loginButton.addEventListener('click', async () => {
-    showError();
-    if (currentUser) await authModule.signOut(auth);
-    else loginDialog.showModal();
-  });
   loginCancel.addEventListener('click', () => loginDialog.close());
   emailLinkNew.addEventListener('click', () => {
     emailLinkDialog.close();
