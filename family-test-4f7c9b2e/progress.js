@@ -18,6 +18,16 @@ const loginForm = $('#login-form');
 const loginEmail = $('#login-email');
 const loginError = $('#login-error');
 const loginCancel = $('#login-cancel');
+const emailLinkDialog = $('#email-link-dialog');
+const emailLinkForm = $('#email-link-form');
+const emailLinkTitle = $('#email-link-title');
+const emailLinkMessage = $('#email-link-message');
+const emailLinkField = $('#email-link-field');
+const emailLinkEmail = $('#email-link-email');
+const emailLinkError = $('#email-link-error');
+const emailLinkContinue = $('#email-link-continue');
+const emailLinkNew = $('#email-link-new');
+const emailLinkCancel = $('#email-link-cancel');
 const accessRequestDialog = $('#access-request-dialog');
 const accessRequestForm = $('#access-request-form');
 const accessRequestError = $('#access-request-error');
@@ -211,14 +221,68 @@ async function requestEmailLink(email) {
   localStorage.setItem(EMAIL_STORAGE_KEY, email);
 }
 
+function cleanEmailLinkUrl() {
+  history.replaceState({}, document.title, window.location.pathname);
+}
+
+function askForLinkEmail() {
+  emailLinkTitle.textContent = 'Confirm your email address';
+  emailLinkMessage.textContent = 'This link was opened in a different browser or after your previous session ended. Enter the email address that received it.';
+  emailLinkField.hidden = false;
+  emailLinkContinue.hidden = false;
+  emailLinkNew.hidden = true;
+  emailLinkCancel.textContent = 'Cancel';
+  emailLinkError.hidden = true;
+  emailLinkDialog.showModal();
+  emailLinkEmail.focus();
+  return new Promise(resolve => {
+    const submit = event => {
+      event.preventDefault();
+      const email = emailLinkEmail.value.trim();
+      emailLinkForm.removeEventListener('submit', submit);
+      emailLinkCancel.removeEventListener('click', cancel);
+      if (emailLinkDialog.open) emailLinkDialog.close();
+      resolve(email);
+    };
+    const cancel = () => {
+      emailLinkForm.removeEventListener('submit', submit);
+      emailLinkCancel.removeEventListener('click', cancel);
+      if (emailLinkDialog.open) emailLinkDialog.close();
+      resolve(null);
+    };
+    emailLinkForm.addEventListener('submit', submit);
+    emailLinkCancel.addEventListener('click', cancel);
+  });
+}
+
+function showUnusableLink() {
+  emailLinkTitle.textContent = 'This sign-in link cannot be used';
+  emailLinkMessage.textContent = 'It may already have been used, or it may have expired. Please request a new sign-in link.';
+  emailLinkField.hidden = true;
+  emailLinkContinue.hidden = true;
+  emailLinkNew.hidden = false;
+  emailLinkCancel.textContent = 'Close';
+  emailLinkError.hidden = true;
+  emailLinkDialog.showModal();
+}
+
 async function completeEmailLink() {
   if (!firebase.isSignInWithEmailLink(auth, window.location.href)) return;
   let email = localStorage.getItem(EMAIL_STORAGE_KEY);
-  if (!email) email = window.prompt('Please confirm the email address that received this login link.');
-  if (!email) throw new Error('Email confirmation is required.');
-  await firebase.signInWithEmailLink(auth, email, window.location.href);
-  localStorage.removeItem(EMAIL_STORAGE_KEY);
-  history.replaceState({}, document.title, window.location.pathname);
+  if (!email) email = await askForLinkEmail();
+  if (!email) {
+    cleanEmailLinkUrl();
+    return;
+  }
+  try {
+    await firebase.signInWithEmailLink(auth, email, window.location.href);
+    localStorage.removeItem(EMAIL_STORAGE_KEY);
+    cleanEmailLinkUrl();
+  } catch (error) {
+    localStorage.removeItem(EMAIL_STORAGE_KEY);
+    cleanEmailLinkUrl();
+    showUnusableLink();
+  }
 }
 
 async function membershipStatus(user) {
@@ -426,6 +490,15 @@ async function start() {
     else loginDialog.showModal();
   });
   loginCancel.addEventListener('click', () => loginDialog.close());
+  emailLinkNew.addEventListener('click', () => {
+    emailLinkDialog.close();
+    emailLinkForm.reset();
+    loginDialog.showModal();
+    loginEmail.focus();
+  });
+  emailLinkCancel.addEventListener('click', () => {
+    if (emailLinkDialog.open) emailLinkDialog.close();
+  });
   loginForm.addEventListener('submit', async event => {
     event.preventDefault();
     loginError.hidden = true;
