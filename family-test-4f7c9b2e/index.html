@@ -957,18 +957,29 @@ particular religious or political viewpoint.
 <dialog id="login-dialog">
 <form class="dialog-body" id="login-form">
 <h2>Request access or log in</h2>
-<p>Enter your email address. We’ll send you a secure one-time link with no password to remember.</p>
+<p>Enter your email address. We’ll send you a secure one-time link. If you already have access, the link will log you in.</p>
 <label class="field-label" for="login-email">Email address</label>
 <input type="email" id="login-email" autocomplete="email" required>
-<label class="checkbox-line">
-<input type="checkbox" id="privacy-confirmation" required>
-<span>I understand that the family administrator (Jon) can access my account email, listening history and reflections.</span>
-</label>
-<p class="privacy-note">If this email has not yet been approved, verifying it will send an access request to Jon. You will not be able to save progress or reflections until it is approved.</p>
+<p class="privacy-note">If you do not yet have access, you’ll be invited to send Jon a request after verifying your email.</p>
 <p class="error-message" id="login-error" hidden></p>
 <div class="tracker-actions">
 <button type="submit">Email me a login link</button>
 <button type="button" class="secondary" id="login-cancel">Cancel</button>
+</div>
+</form>
+</dialog>
+<dialog id="access-request-dialog">
+<form class="dialog-body" id="access-request-form">
+<h2>Request family access</h2>
+<p>Your email has been verified. Jon must approve your request before you can save listening progress or reflections.</p>
+<label class="checkbox-line">
+<input type="checkbox" id="access-privacy-confirmation" required>
+<span>I understand that the family administrator (Jon) can access my account email, listening history and reflections.</span>
+</label>
+<p class="error-message" id="access-request-error" hidden></p>
+<div class="tracker-actions">
+<button type="submit">Send request to Jon</button>
+<button type="button" class="secondary" id="access-request-cancel">Not now</button>
 </div>
 </form>
 </dialog>

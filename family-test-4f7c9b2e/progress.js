@@ -18,6 +18,10 @@ const loginForm = $('#login-form');
 const loginEmail = $('#login-email');
 const loginError = $('#login-error');
 const loginCancel = $('#login-cancel');
+const accessRequestDialog = $('#access-request-dialog');
+const accessRequestForm = $('#access-request-form');
+const accessRequestError = $('#access-request-error');
+const accessRequestCancel = $('#access-request-cancel');
 const notesDialog = $('#notes-dialog');
 const notesText = $('#notes-text');
 const notesTitle = $('#notes-title');
@@ -353,6 +357,8 @@ function updateAccountUi() {
     accountStatus.textContent = `Access has been removed for ${currentUser.email}. Your saved journey is preserved.`;
   } else if (currentRequestStatus === 'declined') {
     accountStatus.textContent = `Access has not been approved for ${currentUser.email}.`;
+  } else if (!currentRequestStatus) {
+    accountStatus.textContent = `Email verified for ${currentUser.email}. Complete the access request to ask Jon for approval.`;
   } else {
     accountStatus.textContent = `Access requested for ${currentUser.email}. Approval is still pending.`;
   }
@@ -437,6 +443,33 @@ async function start() {
       submitButton.disabled = false;
     }
   });
+  accessRequestForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    accessRequestError.hidden = true;
+    const submitButton = accessRequestForm.querySelector('[type="submit"]');
+    submitButton.disabled = true;
+    try {
+      await submitAccessRequest(currentUser);
+      currentRequestStatus = 'pending';
+      accessRequestForm.reset();
+      accessRequestDialog.close();
+      updateAccountUi();
+    } catch (error) {
+      accessRequestError.textContent = 'Your access request could not be sent. Please try again.';
+      accessRequestError.hidden = false;
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+  accessRequestCancel.addEventListener('click', () => {
+    accessRequestDialog.close();
+    authModule.signOut(auth);
+  });
+  accessRequestDialog.addEventListener('cancel', event => {
+    event.preventDefault();
+    accessRequestDialog.close();
+    authModule.signOut(auth);
+  });
   downloadButton.addEventListener('click', downloadJourney);
   deleteAccountButton.addEventListener('click', deleteAccountAndData);
   await completeEmailLink();
@@ -454,14 +487,13 @@ async function start() {
     }
     try {
       await membershipStatus(user);
-      if (!currentMember && !currentAdmin && !currentRequestStatus) {
-        await submitAccessRequest(user);
-        currentRequestStatus = 'pending';
-      }
       await loadProgress();
       updateAccountUi();
       renderPlaylist();
       if (currentAdmin) await loadAdminPanel();
+      if (!currentMember && !currentAdmin && !currentRequestStatus && !accessRequestDialog.open) {
+        accessRequestDialog.showModal();
+      }
     } catch (error) {
       updateAccountUi();
       renderPlaylist();
