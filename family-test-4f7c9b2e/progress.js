@@ -21,6 +21,14 @@ const createAccountButton = $('#create-account-button');
 const forgotPasswordButton = $('#forgot-password-button');
 const loginError = $('#login-error');
 const loginCancel = $('#login-cancel');
+const passwordResetDialog = $('#password-reset-dialog');
+const passwordResetForm = $('#password-reset-form');
+const passwordResetMessage = $('#password-reset-message');
+const newPassword = $('#new-password');
+const showNewPassword = $('#show-new-password');
+const passwordResetError = $('#password-reset-error');
+const passwordResetSubmit = $('#password-reset-submit');
+const passwordResetClose = $('#password-reset-close');
 const accessRequestDialog = $('#access-request-dialog');
 const accessRequestForm = $('#access-request-form');
 const accessRequestError = $('#access-request-error');
@@ -261,6 +269,28 @@ function friendlyAuthError(error) {
   return 'That did not work. Please try again.';
 }
 
+function cleanActionUrl() {
+  history.replaceState({}, document.title, window.location.pathname);
+}
+
+async function handlePasswordReset(authModule) {
+  const parameters = new URLSearchParams(window.location.search);
+  if (parameters.get('mode') !== 'resetPassword') return;
+  const code = parameters.get('oobCode');
+  passwordResetError.hidden = true;
+  passwordResetSubmit.hidden = false;
+  passwordResetClose.textContent = 'Cancel';
+  try {
+    const email = await authModule.verifyPasswordResetCode(auth, code);
+    passwordResetMessage.textContent = `Set a new password for ${email}. Use at least 12 characters.`;
+  } catch (error) {
+    passwordResetMessage.textContent = 'This password link has expired or has already been used.';
+    passwordResetSubmit.hidden = true;
+    passwordResetClose.textContent = 'Close';
+  }
+  passwordResetDialog.showModal();
+}
+
 async function membershipStatus(user) {
   const [memberSnapshot, adminSnapshot, requestSnapshot] = await Promise.all([
     firebase.getDoc(firebase.doc(db, 'members', user.uid)),
@@ -469,6 +499,38 @@ async function start() {
   showPassword.addEventListener('change', () => {
     loginPassword.type = showPassword.checked ? 'text' : 'password';
   });
+  showNewPassword.addEventListener('change', () => {
+    newPassword.type = showNewPassword.checked ? 'text' : 'password';
+  });
+  passwordResetClose.addEventListener('click', () => {
+    passwordResetDialog.close();
+    cleanActionUrl();
+  });
+  passwordResetForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    passwordResetError.hidden = true;
+    if (newPassword.value.length < 12) {
+      passwordResetError.textContent = 'Choose a password of at least 12 characters.';
+      passwordResetError.hidden = false;
+      return;
+    }
+    passwordResetSubmit.disabled = true;
+    try {
+      const code = new URLSearchParams(window.location.search).get('oobCode');
+      await authModule.confirmPasswordReset(auth, code, newPassword.value);
+      passwordResetForm.reset();
+      newPassword.type = 'password';
+      passwordResetMessage.textContent = 'Your password has been saved. Return to the app and log in with your new password.';
+      passwordResetSubmit.hidden = true;
+      passwordResetClose.textContent = 'Close';
+      cleanActionUrl();
+    } catch (error) {
+      passwordResetError.textContent = friendlyAuthError(error);
+      passwordResetError.hidden = false;
+    } finally {
+      passwordResetSubmit.disabled = false;
+    }
+  });
   loginForm.addEventListener('submit', async event => {
     event.preventDefault();
     loginError.hidden = true;
@@ -564,6 +626,7 @@ async function start() {
   });
   downloadButton.addEventListener('click', downloadJourney);
   deleteAccountButton.addEventListener('click', deleteAccountAndData);
+  await handlePasswordReset(authModule);
   authModule.onAuthStateChanged(auth, async user => {
     currentUser = user;
     currentMember = false;
