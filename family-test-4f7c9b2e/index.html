@@ -6,7 +6,11 @@
 
 <title>The Freedman/Gillman Eastern European Jewish family history playlist</title>
 
-<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="test-icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Family Playlist TEST">
 <meta name="theme-color" content="#173f35">
 
 <style>
@@ -69,6 +73,14 @@ article p{color:#48534e;margin:0 0 15px}
 .tracker-intro p,.tracker-panel p{margin:0 0 12px;color:#48534e}
 .tracker-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .tracker-actions[hidden]{display:none}
+.install-box{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  border:1px solid #c59a43;border-radius:14px;background:#fffaf0;
+  padding:14px 16px;margin:14px 0
+}
+.install-box[hidden]{display:none}
+.install-copy{margin:0!important;color:#1e2924!important}
+.install-copy strong{display:block;color:#173f35}
 button,.button{
   border:1px solid #173f35;border-radius:999px;background:#173f35;color:#fff;
   padding:9px 14px;font:700 14px/1.2 system-ui,-apple-system,sans-serif;cursor:pointer
@@ -118,6 +130,7 @@ footer{
 }
 @media(max-width:520px){
   header{padding-top:36px}
+  .install-box{align-items:flex-start;flex-direction:column}
   article{padding:18px;grid-template-columns:34px 1fr}
   .number{width:34px;height:34px}
   h3{font-size:19px}
@@ -165,6 +178,10 @@ those who survived.
 <section class="tracker-intro" id="tracker-intro">
 <h2>Track your listening journey</h2>
 <p>If you want to track your progress and notes, create an account or log in here. You can also browse and listen without an account.</p>
+<div class="install-box" id="install-box">
+<p class="install-copy"><strong>Add this app to your Home Screen</strong>Open the playlist like an app, with its own TEST icon.</p>
+<button type="button" id="install-app-button">Add app</button>
+</div>
 <div class="tracker-actions">
 <button type="button" id="login-button">Request access or log in</button>
 <span class="account-status" id="account-status"></span>
@@ -1012,7 +1029,17 @@ particular religious or political viewpoint.
 </div>
 </div>
 </dialog>
+<dialog id="install-dialog">
+<div class="dialog-body">
+<h2 id="install-title">Add this app to your Home Screen</h2>
+<div id="install-instructions"></div>
+<div class="tracker-actions">
+<button type="button" id="install-close">Close</button>
+</div>
+</div>
+</dialog>
 <script type="module" src="progress.js?v=6c598e8"></script>
+<script src="install.js?v=1" defer></script>
 <script>
 document.querySelectorAll('[data-new-until]').forEach(function (badge) {
   var end = new Date(badge.dataset.newUntil + 'T23:59:59');
