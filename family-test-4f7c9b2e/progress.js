@@ -29,6 +29,10 @@ const showNewPassword = $('#show-new-password');
 const passwordResetError = $('#password-reset-error');
 const passwordResetSubmit = $('#password-reset-submit');
 const passwordResetClose = $('#password-reset-close');
+const emailActionDialog = $('#email-action-dialog');
+const emailActionTitle = $('#email-action-title');
+const emailActionMessage = $('#email-action-message');
+const emailActionClose = $('#email-action-close');
 const accessRequestDialog = $('#access-request-dialog');
 const accessRequestForm = $('#access-request-form');
 const accessRequestError = $('#access-request-error');
@@ -291,6 +295,34 @@ async function handlePasswordReset(authModule) {
   passwordResetDialog.showModal();
 }
 
+async function handleEmailAction(authModule) {
+  const parameters = new URLSearchParams(window.location.search);
+  const mode = parameters.get('mode');
+  if (mode === 'resetPassword') {
+    await handlePasswordReset(authModule);
+    return;
+  }
+  if (!['verifyEmail', 'recoverEmail', 'verifyAndChangeEmail'].includes(mode)) return;
+  const code = parameters.get('oobCode');
+  try {
+    await authModule.applyActionCode(auth, code);
+    if (mode === 'verifyEmail') {
+      emailActionTitle.textContent = 'Email address verified';
+      emailActionMessage.textContent = 'Your email address has been verified. Return to the family app and log in to request access from Jon.';
+    } else if (mode === 'recoverEmail') {
+      emailActionTitle.textContent = 'Email address restored';
+      emailActionMessage.textContent = 'Your previous email address has been restored.';
+    } else {
+      emailActionTitle.textContent = 'New email address verified';
+      emailActionMessage.textContent = 'Your new email address has been verified.';
+    }
+  } catch (error) {
+    emailActionTitle.textContent = 'This email link cannot be used';
+    emailActionMessage.textContent = 'It may have expired or already been used. Return to the family app and try again.';
+  }
+  emailActionDialog.showModal();
+}
+
 async function membershipStatus(user) {
   const [memberSnapshot, adminSnapshot, requestSnapshot] = await Promise.all([
     firebase.getDoc(firebase.doc(db, 'members', user.uid)),
@@ -506,6 +538,10 @@ async function start() {
     passwordResetDialog.close();
     cleanActionUrl();
   });
+  emailActionClose.addEventListener('click', () => {
+    emailActionDialog.close();
+    cleanActionUrl();
+  });
   passwordResetForm.addEventListener('submit', async event => {
     event.preventDefault();
     passwordResetError.hidden = true;
@@ -626,7 +662,7 @@ async function start() {
   });
   downloadButton.addEventListener('click', downloadJourney);
   deleteAccountButton.addEventListener('click', deleteAccountAndData);
-  await handlePasswordReset(authModule);
+  await handleEmailAction(authModule);
   authModule.onAuthStateChanged(auth, async user => {
     currentUser = user;
     currentMember = false;
