@@ -968,6 +968,22 @@ particular religious or political viewpoint.
 </div>
 </form>
 </dialog>
+<dialog id="email-link-dialog">
+<form class="dialog-body" id="email-link-form">
+<h2 id="email-link-title">Confirm your email address</h2>
+<p id="email-link-message">This link was opened in a different browser or after your previous session ended. Enter the email address that received it.</p>
+<div id="email-link-field">
+<label class="field-label" for="email-link-email">Email address</label>
+<input type="email" id="email-link-email" autocomplete="email" required>
+</div>
+<p class="error-message" id="email-link-error" hidden></p>
+<div class="tracker-actions">
+<button type="submit" id="email-link-continue">Continue</button>
+<button type="button" class="secondary" id="email-link-new" hidden>Request a new sign-in link</button>
+<button type="button" class="secondary" id="email-link-cancel">Cancel</button>
+</div>
+</form>
+</dialog>
 <dialog id="access-request-dialog">
 <form class="dialog-body" id="access-request-form">
 <h2>Request family access</h2>
