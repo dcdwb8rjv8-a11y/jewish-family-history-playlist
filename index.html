@@ -24,13 +24,14 @@ header{
   border-bottom:1px solid #ffffff22
 }
 .wrap{max-width:780px;margin:auto}
+header .wrap{max-width:1180px}
 .kicker{
   color:#d7b66f;font-size:12px;font-weight:700;
   letter-spacing:.2em;text-transform:uppercase
 }
 h1,h2,h3{font-family:Georgia,serif}
-h1{font-size:clamp(38px,7vw,62px);line-height:1.05;margin:18px 0 24px}
-header .blurb{color:#e7dfd1;font-size:18px}
+h1{font-size:clamp(24px,3.4vw,42px);line-height:1.05;margin:18px 0 24px;white-space:nowrap}
+header .blurb{color:#e7dfd1;font-size:18px;max-width:780px}
 .key{
   display:inline-block;border:1px solid #d7b66f88;border-radius:999px;
   padding:8px 14px;color:#f4e6c6;margin-top:14px
@@ -89,7 +90,7 @@ button.secondary{background:transparent;color:#173f35}
 button:disabled{cursor:not-allowed;opacity:.55}
 .account-status{font-size:14px;color:#59635e}
 .field-label{display:block;font-weight:700;margin:14px 0 6px}
-input[type="email"]{
+input[type="email"],input[type="password"]{
   width:100%;border:1px solid #68736d;border-radius:10px;padding:11px 12px;
   font:16px/1.4 system-ui,-apple-system,sans-serif
 }
@@ -130,6 +131,8 @@ footer{
 }
 @media(max-width:520px){
   header{padding-top:36px}
+  h1{font-size:clamp(25px,8vw,34px);white-space:normal}
+  .title-line-one,.title-line-two{display:block;white-space:nowrap}
   .install-box{align-items:flex-start;flex-direction:column}
   article{padding:18px;grid-template-columns:34px 1fr}
   .number{width:34px;height:34px}
@@ -144,7 +147,7 @@ footer{
 <div class="wrap">
 <p class="kicker">A family listening journey</p>
 
-<h1>The Freedman/Gillman Eastern European Jewish family history playlist</h1>
+<h1><span class="title-line-one">The Freedman/Gillman</span> <span class="title-line-two">Family History Playlist</span></h1>
 
 <p class="blurb">
 Two family worlds run through this journey. The Gillman and Goldberg families
@@ -179,7 +182,7 @@ those who survived.
 <h2>Track your listening journey</h2>
 <p>If you want to track your progress and notes, create an account or log in here. You can also browse and listen without an account.</p>
 <div class="install-box" id="install-box">
-<p class="install-copy"><strong>Add this app to your Home Screen</strong>Open the playlist like an app from your Home Screen.</p>
+<p class="install-copy"><strong>Add this app to your Home Screen</strong>Open the playlist like an app, with its own icon.</p>
 <button type="button" id="install-app-button">Add app</button>
 </div>
 <div class="tracker-actions">
@@ -974,32 +977,45 @@ particular religious or political viewpoint.
 <dialog id="login-dialog">
 <form class="dialog-body" id="login-form">
 <h2>Request access or log in</h2>
-<p>Enter your email address. We’ll send you a secure one-time link. If you already have access, the link will log you in.</p>
+<p>Log in inside this app using your email address and password.</p>
 <label class="field-label" for="login-email">Email address</label>
 <input type="email" id="login-email" autocomplete="email" required>
-<p class="privacy-note">If you do not yet have access, you’ll be invited to send Jon a request after verifying your email.</p>
+<label class="field-label" for="login-password">Password</label>
+<input type="password" id="login-password" autocomplete="current-password" required>
+<label class="checkbox-line"><input type="checkbox" id="show-password"><span>Show password</span></label>
+<p class="privacy-note">New here? Create an account using a password of at least 12 characters. Firebase handles the password securely; it is not stored on this website or in the listening database.</p>
 <p class="error-message" id="login-error" hidden></p>
 <div class="tracker-actions">
-<button type="submit">Email me a login link</button>
+<button type="submit">Log in</button>
+<button type="button" class="secondary" id="create-account-button">Create account</button>
+<button type="button" class="secondary" id="forgot-password-button">Forgotten password?</button>
 <button type="button" class="secondary" id="login-cancel">Cancel</button>
 </div>
 </form>
 </dialog>
-<dialog id="email-link-dialog">
-<form class="dialog-body" id="email-link-form">
-<h2 id="email-link-title">Confirm your email address</h2>
-<p id="email-link-message">This link was opened in a different browser or after your previous session ended. Enter the email address that received it.</p>
-<div id="email-link-field">
-<label class="field-label" for="email-link-email">Email address</label>
-<input type="email" id="email-link-email" autocomplete="email" required>
-</div>
-<p class="error-message" id="email-link-error" hidden></p>
+<dialog id="password-reset-dialog">
+<form class="dialog-body" id="password-reset-form">
+<h2>Set a new password</h2>
+<p id="password-reset-message">Choose a password of at least 12 characters.</p>
+<label class="field-label" for="new-password">New password</label>
+<input type="password" id="new-password" autocomplete="new-password" required minlength="12">
+<label class="checkbox-line"><input type="checkbox" id="show-new-password"><span>Show password</span></label>
+<p class="privacy-note">Your password is sent securely to Firebase Authentication. It is not stored on this website or in the listening database.</p>
+<p class="error-message" id="password-reset-error" hidden></p>
 <div class="tracker-actions">
-<button type="submit" id="email-link-continue">Continue</button>
-<button type="button" class="secondary" id="email-link-new" hidden>Request a new sign-in link</button>
-<button type="button" class="secondary" id="email-link-cancel">Cancel</button>
+<button type="submit" id="password-reset-submit">Save new password</button>
+<button type="button" class="secondary" id="password-reset-close">Cancel</button>
 </div>
 </form>
+</dialog>
+<dialog id="email-action-dialog">
+<div class="dialog-body">
+<h2 id="email-action-title">Email confirmed</h2>
+<p id="email-action-message"></p>
+<div class="tracker-actions">
+<button type="button" id="email-action-close">Close</button>
+</div>
+</div>
 </dialog>
 <dialog id="access-request-dialog">
 <form class="dialog-body" id="access-request-form">
@@ -1038,7 +1054,7 @@ particular religious or political viewpoint.
 </div>
 </div>
 </dialog>
-<script type="module" src="progress.js?v=86632dd"></script>
+<script type="module" src="progress.js?v=password-live-1"></script>
 <script src="install.js?v=1" defer></script>
 <script>
 document.querySelectorAll('[data-new-until]').forEach(function (badge) {
