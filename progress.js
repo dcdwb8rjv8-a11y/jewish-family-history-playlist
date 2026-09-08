@@ -2,7 +2,6 @@ import { firebaseConfig } from './firebase-config.js';
 
 const FIREBASE_VERSION = '12.18.0';
 const FIREBASE_BASE = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}`;
-const EMAIL_STORAGE_KEY = 'familyHistoryEmailForSignIn';
 const $ = selector => document.querySelector(selector);
 const loginButton = $('#login-button');
 const accountStatus = $('#account-status');
@@ -16,18 +15,24 @@ const nextItem = $('#next-episode-item');
 const loginDialog = $('#login-dialog');
 const loginForm = $('#login-form');
 const loginEmail = $('#login-email');
+const loginPassword = $('#login-password');
+const showPassword = $('#show-password');
+const createAccountButton = $('#create-account-button');
+const forgotPasswordButton = $('#forgot-password-button');
 const loginError = $('#login-error');
 const loginCancel = $('#login-cancel');
-const emailLinkDialog = $('#email-link-dialog');
-const emailLinkForm = $('#email-link-form');
-const emailLinkTitle = $('#email-link-title');
-const emailLinkMessage = $('#email-link-message');
-const emailLinkField = $('#email-link-field');
-const emailLinkEmail = $('#email-link-email');
-const emailLinkError = $('#email-link-error');
-const emailLinkContinue = $('#email-link-continue');
-const emailLinkNew = $('#email-link-new');
-const emailLinkCancel = $('#email-link-cancel');
+const passwordResetDialog = $('#password-reset-dialog');
+const passwordResetForm = $('#password-reset-form');
+const passwordResetMessage = $('#password-reset-message');
+const newPassword = $('#new-password');
+const showNewPassword = $('#show-new-password');
+const passwordResetError = $('#password-reset-error');
+const passwordResetSubmit = $('#password-reset-submit');
+const passwordResetClose = $('#password-reset-close');
+const emailActionDialog = $('#email-action-dialog');
+const emailActionTitle = $('#email-action-title');
+const emailActionMessage = $('#email-action-message');
+const emailActionClose = $('#email-action-close');
 const accessRequestDialog = $('#access-request-dialog');
 const accessRequestForm = $('#access-request-form');
 const accessRequestError = $('#access-request-error');
@@ -57,12 +62,6 @@ let notesSaveTimer = null;
 let auth;
 let db;
 let firebase;
-
-loginButton.addEventListener('click', async () => {
-  showError();
-  if (currentUser && auth && firebase) await firebase.signOut(auth);
-  else if (!loginDialog.open) loginDialog.showModal();
-});
 
 const REFLECTION_PROMPTS = {
   'the-shtetl-myth-and-reality': 'Kassow contrasts the real shtetl with both nostalgia and caricature. Which parts complicate the picture you had before, and what might daily life have felt like for your family?',
@@ -261,77 +260,67 @@ function configured() {
   return firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('REPLACE_');
 }
 
-function emailActionSettings() {
-  return { url: `${window.location.origin}${window.location.pathname}`, handleCodeInApp: true };
+function verificationSettings() {
+  return { url: `${window.location.origin}${window.location.pathname}` };
 }
 
-async function requestEmailLink(email) {
-  await firebase.sendSignInLinkToEmail(auth, email, emailActionSettings());
-  localStorage.setItem(EMAIL_STORAGE_KEY, email);
+function friendlyAuthError(error) {
+  if (error?.code === 'auth/invalid-credential') return 'The email address or password is incorrect.';
+  if (error?.code === 'auth/invalid-email') return 'Enter a valid email address.';
+  if (error?.code === 'auth/email-already-in-use') return 'An account already exists for this email. Log in, or use Forgotten password.';
+  if (error?.code === 'auth/weak-password') return 'Choose a password of at least 12 characters.';
+  if (error?.code === 'auth/too-many-requests') return 'There have been too many attempts. Please wait a little and try again.';
+  return 'That did not work. Please try again.';
 }
 
-function cleanEmailLinkUrl() {
+function cleanActionUrl() {
   history.replaceState({}, document.title, window.location.pathname);
 }
 
-function askForLinkEmail() {
-  emailLinkTitle.textContent = 'Confirm your email address';
-  emailLinkMessage.textContent = 'This link was opened in a different browser or after your previous session ended. Enter the email address that received it.';
-  emailLinkField.hidden = false;
-  emailLinkContinue.hidden = false;
-  emailLinkNew.hidden = true;
-  emailLinkCancel.textContent = 'Cancel';
-  emailLinkError.hidden = true;
-  emailLinkDialog.showModal();
-  emailLinkEmail.focus();
-  return new Promise(resolve => {
-    const submit = event => {
-      event.preventDefault();
-      const email = emailLinkEmail.value.trim();
-      emailLinkForm.removeEventListener('submit', submit);
-      emailLinkCancel.removeEventListener('click', cancel);
-      if (emailLinkDialog.open) emailLinkDialog.close();
-      resolve(email);
-    };
-    const cancel = () => {
-      emailLinkForm.removeEventListener('submit', submit);
-      emailLinkCancel.removeEventListener('click', cancel);
-      if (emailLinkDialog.open) emailLinkDialog.close();
-      resolve(null);
-    };
-    emailLinkForm.addEventListener('submit', submit);
-    emailLinkCancel.addEventListener('click', cancel);
-  });
+async function handlePasswordReset(authModule) {
+  const parameters = new URLSearchParams(window.location.search);
+  if (parameters.get('mode') !== 'resetPassword') return;
+  const code = parameters.get('oobCode');
+  passwordResetError.hidden = true;
+  passwordResetSubmit.hidden = false;
+  passwordResetClose.textContent = 'Cancel';
+  try {
+    const email = await authModule.verifyPasswordResetCode(auth, code);
+    passwordResetMessage.textContent = `Set a new password for ${email}. Use at least 12 characters.`;
+  } catch (error) {
+    passwordResetMessage.textContent = 'This password link has expired or has already been used.';
+    passwordResetSubmit.hidden = true;
+    passwordResetClose.textContent = 'Close';
+  }
+  passwordResetDialog.showModal();
 }
 
-function showUnusableLink() {
-  emailLinkTitle.textContent = 'This sign-in link cannot be used';
-  emailLinkMessage.textContent = 'It may already have been used, or it may have expired. Please request a new sign-in link.';
-  emailLinkField.hidden = true;
-  emailLinkContinue.hidden = true;
-  emailLinkNew.hidden = false;
-  emailLinkCancel.textContent = 'Close';
-  emailLinkError.hidden = true;
-  emailLinkDialog.showModal();
-}
-
-async function completeEmailLink() {
-  if (!firebase.isSignInWithEmailLink(auth, window.location.href)) return;
-  let email = localStorage.getItem(EMAIL_STORAGE_KEY);
-  if (!email) email = await askForLinkEmail();
-  if (!email) {
-    cleanEmailLinkUrl();
+async function handleEmailAction(authModule) {
+  const parameters = new URLSearchParams(window.location.search);
+  const mode = parameters.get('mode');
+  if (mode === 'resetPassword') {
+    await handlePasswordReset(authModule);
     return;
   }
+  if (!['verifyEmail', 'recoverEmail', 'verifyAndChangeEmail'].includes(mode)) return;
+  const code = parameters.get('oobCode');
   try {
-    await firebase.signInWithEmailLink(auth, email, window.location.href);
-    localStorage.removeItem(EMAIL_STORAGE_KEY);
-    cleanEmailLinkUrl();
+    await authModule.applyActionCode(auth, code);
+    if (mode === 'verifyEmail') {
+      emailActionTitle.textContent = 'Email address verified';
+      emailActionMessage.textContent = 'Your email address has been verified. Return to the family app and log in to request access from Jon.';
+    } else if (mode === 'recoverEmail') {
+      emailActionTitle.textContent = 'Email address restored';
+      emailActionMessage.textContent = 'Your previous email address has been restored.';
+    } else {
+      emailActionTitle.textContent = 'New email address verified';
+      emailActionMessage.textContent = 'Your new email address has been verified.';
+    }
   } catch (error) {
-    localStorage.removeItem(EMAIL_STORAGE_KEY);
-    cleanEmailLinkUrl();
-    showUnusableLink();
+    emailActionTitle.textContent = 'This email link cannot be used';
+    emailActionMessage.textContent = 'It may have expired or already been used. Return to the family app and try again.';
   }
+  emailActionDialog.showModal();
 }
 
 async function membershipStatus(user) {
@@ -533,15 +522,50 @@ async function start() {
   auth = authModule.getAuth(app);
   db = storeModule.getFirestore(app);
   await authModule.setPersistence(auth, authModule.browserLocalPersistence);
-  loginCancel.addEventListener('click', () => loginDialog.close());
-  emailLinkNew.addEventListener('click', () => {
-    emailLinkDialog.close();
-    emailLinkForm.reset();
-    loginDialog.showModal();
-    loginEmail.focus();
+  loginButton.addEventListener('click', async () => {
+    showError();
+    if (currentUser) await authModule.signOut(auth);
+    else loginDialog.showModal();
   });
-  emailLinkCancel.addEventListener('click', () => {
-    if (emailLinkDialog.open) emailLinkDialog.close();
+  loginCancel.addEventListener('click', () => loginDialog.close());
+  showPassword.addEventListener('change', () => {
+    loginPassword.type = showPassword.checked ? 'text' : 'password';
+  });
+  showNewPassword.addEventListener('change', () => {
+    newPassword.type = showNewPassword.checked ? 'text' : 'password';
+  });
+  passwordResetClose.addEventListener('click', () => {
+    passwordResetDialog.close();
+    cleanActionUrl();
+  });
+  emailActionClose.addEventListener('click', () => {
+    emailActionDialog.close();
+    cleanActionUrl();
+  });
+  passwordResetForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    passwordResetError.hidden = true;
+    if (newPassword.value.length < 12) {
+      passwordResetError.textContent = 'Choose a password of at least 12 characters.';
+      passwordResetError.hidden = false;
+      return;
+    }
+    passwordResetSubmit.disabled = true;
+    try {
+      const code = new URLSearchParams(window.location.search).get('oobCode');
+      await authModule.confirmPasswordReset(auth, code, newPassword.value);
+      passwordResetForm.reset();
+      newPassword.type = 'password';
+      passwordResetMessage.textContent = 'Your password has been saved. Return to the app and log in with your new password.';
+      passwordResetSubmit.hidden = true;
+      passwordResetClose.textContent = 'Close';
+      cleanActionUrl();
+    } catch (error) {
+      passwordResetError.textContent = friendlyAuthError(error);
+      passwordResetError.hidden = false;
+    } finally {
+      passwordResetSubmit.disabled = false;
+    }
   });
   loginForm.addEventListener('submit', async event => {
     event.preventDefault();
@@ -549,15 +573,64 @@ async function start() {
     const submitButton = loginForm.querySelector('[type="submit"]');
     submitButton.disabled = true;
     try {
-      await requestEmailLink(loginEmail.value.trim());
+      const credential = await authModule.signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPassword.value);
+      if (!credential.user.emailVerified) {
+        await authModule.signOut(auth);
+        loginError.textContent = 'Please verify your email before logging in. Check your email for the verification message.';
+        loginError.hidden = false;
+        return;
+      }
       loginForm.reset();
       loginDialog.close();
-      accountStatus.textContent = 'Check your email and open the secure login link.';
     } catch (error) {
-      loginError.textContent = 'The login email could not be sent. Please try again.';
+      loginError.textContent = friendlyAuthError(error);
       loginError.hidden = false;
     } finally {
       submitButton.disabled = false;
+    }
+  });
+  createAccountButton.addEventListener('click', async () => {
+    loginError.hidden = true;
+    const email = loginEmail.value.trim();
+    const password = loginPassword.value;
+    if (!email || password.length < 12) {
+      loginError.textContent = 'Enter your email and choose a password of at least 12 characters.';
+      loginError.hidden = false;
+      return;
+    }
+    createAccountButton.disabled = true;
+    try {
+      const credential = await authModule.createUserWithEmailAndPassword(auth, email, password);
+      await authModule.sendEmailVerification(credential.user, verificationSettings());
+      await authModule.signOut(auth);
+      loginForm.reset();
+      loginDialog.close();
+      accountStatus.textContent = 'Account created. Check your email to verify it, then return here and log in.';
+    } catch (error) {
+      loginError.textContent = friendlyAuthError(error);
+      loginError.hidden = false;
+    } finally {
+      createAccountButton.disabled = false;
+    }
+  });
+  forgotPasswordButton.addEventListener('click', async () => {
+    loginError.hidden = true;
+    const email = loginEmail.value.trim();
+    if (!email) {
+      loginError.textContent = 'Enter your email address first.';
+      loginError.hidden = false;
+      return;
+    }
+    forgotPasswordButton.disabled = true;
+    try {
+      await authModule.sendPasswordResetEmail(auth, email, verificationSettings());
+      loginError.textContent = 'If an account exists for that email, a password-reset message has been sent.';
+      loginError.hidden = false;
+    } catch (error) {
+      loginError.textContent = friendlyAuthError(error);
+      loginError.hidden = false;
+    } finally {
+      forgotPasswordButton.disabled = false;
     }
   });
   accessRequestForm.addEventListener('submit', async event => {
@@ -589,7 +662,7 @@ async function start() {
   });
   downloadButton.addEventListener('click', downloadJourney);
   deleteAccountButton.addEventListener('click', deleteAccountAndData);
-  await completeEmailLink();
+  await handleEmailAction(authModule);
   authModule.onAuthStateChanged(auth, async user => {
     currentUser = user;
     currentMember = false;
