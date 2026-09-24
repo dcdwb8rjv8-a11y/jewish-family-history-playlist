@@ -155,7 +155,7 @@ function addTools(article) {
   const notesButton = document.createElement('button');
   notesButton.type = 'button';
   notesButton.className = 'notes-button';
-  notesButton.textContent = item.notes ? 'Edit thoughts and reflections' : 'Add thoughts and reflections';
+  notesButton.textContent = item.notes ? 'Reflection prompt & edit notes' : 'Reflection prompt & notes';
   notesButton.addEventListener('click', () => openNotes(article));
   tools.append(listenedButton, notesButton);
 }
