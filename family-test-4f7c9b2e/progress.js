@@ -64,6 +64,9 @@ let db;
 let firebase;
 
 const REFLECTION_PROMPTS = {
+  'the-jews-in-poland-lithuania-and-russia-1350-to-the-present-day': 'Polonsky reconstructs a whole civilisation rather than reducing Eastern European Jewish history to persecution. Which part of that wider world best helps you place the family, and which theme would you most like to follow into a more personal story?',
+  'the-vilna-gaon-and-the-making-of-modern-judaism': 'Stern uses the Vilna Gaon to tell a different story of Jewish modernity, rooted in Eastern Europe and claimed by very different later movements. Which aspect of that legacy most changes how you understand Vilna, and why?',
+  'the-shochet-the-autobiography-of-pinkhes-dov-goldenshteyn': 'Goldenshteyn describes an ordinary life from the inside, including work as a shochet, poverty, family, communal conflict and Chabad. Which detail feels closest to your own family story, and what does his memoir reveal that a formal history might miss?',
   'the-shtetl-myth-and-reality': 'Kassow contrasts the real shtetl with both nostalgia and caricature. Which parts complicate the picture you had before, and what might daily life have felt like for your family?',
   'remembering-vilna-introduction': 'Vilna was a centre of religious tradition, secular culture and Jewish politics. Which side of the city feels closest to the Vilna you imagined, and which would you like to explore further?',
   'remembering-vilna-chapter-1-childhood-memories': 'Survivors recall Vilna through homes, streets, schools, synagogues and organisations. Which details make the city feel most alive, and what would you most like to know about your family’s life there?',

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>The Freedman/Gillman Eastern European Jewish family history playlist</title>
+<title>The Freedman/Gillman History Playlist</title>
 
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="test-icon-180.png">
@@ -30,7 +30,7 @@ header .wrap{max-width:1180px}
   letter-spacing:.2em;text-transform:uppercase
 }
 h1,h2,h3{font-family:Georgia,serif}
-h1{font-size:clamp(32px,4.2vw,52px);line-height:1.05;margin:18px 0 24px;white-space:nowrap}
+h1{font-size:clamp(30px,4.2vw,50px);line-height:1.08;margin:18px 0 24px}
 header .blurb{color:#e7dfd1;font-size:18px;max-width:780px}
 .key{
   display:inline-block;border:1px solid #d7b66f88;border-radius:999px;
@@ -59,11 +59,16 @@ article p{color:#48534e;margin:0 0 15px}
 .listen a{color:#173f35;text-decoration:underline}
 .note{font-size:13px;color:#68736d;margin-top:8px}
 .ai-note{font-size:.62em;color:#9aa09d;vertical-align:super;margin-left:2px}
-.journeys summary{cursor:pointer;color:#f4e6c6;font-weight:700;margin:12px 0}
+.journeys summary{cursor:pointer;color:#173f35;background:#f4e6c6;border:2px solid #d7b66f;border-radius:12px;font-size:17px;font-weight:700;margin:18px 0;padding:13px 16px;box-shadow:0 3px 12px #071b1440}
+.journeys summary::after{content:'＋';float:right;font:700 20px/1 system-ui}
+.journeys[open] summary::after{content:'−'}
+.journeys .blurb:first-of-type{margin-top:20px}
 .journeys summary:focus-visible,.topic-nav button:focus-visible,.family-connection a:focus-visible{outline:3px solid #d7b66f;outline-offset:3px}
 .family-intro{background:#fffdf8;border:1px solid #1e292426;border-radius:16px;padding:16px 20px;margin:0 0 16px}
-.family-intro strong{color:#173f35}
+.family-intro>strong{display:block;color:#173f35;font:700 21px/1.25 Georgia,serif}
 .family-intro p{margin:4px 0 8px}
+.family-intro .tree-link{display:flex;gap:9px;align-items:flex-start;margin-top:12px}
+.tree-link svg{flex:none;width:21px;height:21px;color:#173f35}
 .family-intro a,.family-connection a,.person-card a{color:#173f35;font-weight:700}
 .topic-nav{margin:18px 0 28px}
 .topic-nav h2{border:0;padding:0;margin:0 0 8px;font-size:21px}
@@ -74,14 +79,24 @@ article p{color:#48534e;margin:0 0 15px}
 .family-connection strong{display:block;color:#173f35;margin-bottom:3px}
 .family-connection p{margin:0;color:#32453c}
 .family-connection a{display:inline-block;margin-top:4px}
+.family-people{display:flex;flex-wrap:wrap;gap:2px 12px;margin-top:6px}
 .people-section{padding-top:12px;scroll-margin-top:20px}
 .people-section>p{color:#48534e}
 .people-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .person-card{background:#fffdf8;border:1px solid #1e292426;border-radius:14px;padding:16px;scroll-margin-top:20px}
 .person-card h3{font-size:20px}
+.person-card h4{font:700 20px/1.25 Georgia,serif;margin:0;color:#182e27}
 .person-card p{margin:5px 0 8px;color:#48534e}
 .person-card .relation{font-weight:700;color:#173f35}
 .person-card .related{font-size:14px}
+.person-card .related a{font-weight:600}
+.person-card summary{cursor:pointer;color:#173f35;font-weight:700;margin-top:10px}
+.person-card ol{padding-left:23px;margin:8px 0 0}
+.person-card li{margin:4px 0}
+.people-group{margin:25px 0 11px;font:700 20px/1.3 Georgia,serif;color:#173f35}
+.back-to-top{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:20;box-shadow:0 5px 16px #10251f55;display:none}
+.back-to-top.is-visible{display:block}
+@media(min-width:521px){.back-to-top{display:none!important}}
 .new-badge{
   display:inline-block;margin-left:7px;padding:2px 6px;border-radius:999px;
   background:#b04a36;color:#fff;font:700 10px/1.4 system-ui,-apple-system,sans-serif;
@@ -154,16 +169,16 @@ footer{
 }
 @media(max-width:520px){
   header{padding-top:36px}
-  h1{font-size:clamp(25px,8.2vw,38px);white-space:normal}
-  .title-line-one,.title-line-two{display:block;white-space:nowrap}
+  h1{font-size:clamp(25px,7.2vw,34px);overflow-wrap:normal}
+  .title-line-one,.title-line-two{display:block}
   .install-box{align-items:flex-start;flex-direction:column}
   article{padding:18px;grid-template-columns:34px 1fr}
   .number{width:34px;height:34px}
   h3{font-size:19px}
-  .journeys summary{margin-top:18px}
+  .journeys summary{margin-top:20px}
   .people-grid{grid-template-columns:1fr}
 }
-@media(min-width:521px){.journeys summary{display:none}}
+@media(min-width:521px){.journeys summary{display:none}.journeys .blurb:first-of-type{margin-top:0}}
 </style>
 </head>
 
@@ -173,7 +188,7 @@ footer{
 <div class="wrap">
 <p class="kicker">A family listening journey</p>
 
-<h1><span class="title-line-one">The Freedman/Gillman</span> <span class="title-line-two">Family History Playlist</span></h1>
+<h1><span class="title-line-one">The Freedman/Gillman</span> <span class="title-line-two">History Playlist</span></h1>
 
 <details class="journeys" id="family-journeys" open>
 <summary>The family journeys</summary>
@@ -208,8 +223,9 @@ those who survived.
 <main class="wrap">
 
 <aside class="family-intro" aria-label="Family tree and people">
-<strong>Who were the people behind this history?</strong>
-<p>Meet a few ancestors in <a href="#people-in-our-story">People in our story</a>, with relationships described from Sheila or Stan. You can also <a href="https://www.ancestry.com/family-tree/tree/202836244/family?cfpid=402661841551" target="_blank" rel="noopener noreferrer">open the family tree on Ancestry</a>.</p>
+<strong>The people behind this history</strong>
+<p><a href="#people-in-our-story">Meet our ancestors</a>, and see how they are related to us.</p>
+<p class="tree-link"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9m0 4-4-4m4 2 4-4M8 6a4 4 0 0 1 8 0 4 4 0 0 1 2 7 4 4 0 0 1-4 0m-4 0a4 4 0 0 1-4 0 4 4 0 0 1 2-7Z"/></svg><span>You can also <a href="https://www.ancestry.com/invite-ui/accept?token=gZ3VaMFgOaLNbij7V8IoJgbQHBNgTN2mHLjbmklOb0k=" target="_blank" rel="noopener noreferrer">open the family tree on Ancestry</a>.</span></p>
 </aside>
 
 <section class="tracker-intro" id="tracker-intro">
@@ -254,11 +270,11 @@ those who survived.
 <h2>Explore by theme</h2>
 <p>Jump to a part of the journey, or simply keep scrolling through the episodes in order.</p>
 <div class="topic-buttons">
-<button type="button" data-first="1" data-last="9">Shtetl life</button>
-<button type="button" data-first="10" data-last="16">Ideas &amp; change</button>
-<button type="button" data-first="17" data-last="23">Migration to Britain</button>
-<button type="button" data-first="24" data-last="32">War &amp; loss</button>
-<button type="button" data-first="33" data-last="43">A scattered family</button>
+<button type="button" data-first="1" data-last="12">Shtetl life</button>
+<button type="button" data-first="13" data-last="19">Ideas &amp; change</button>
+<button type="button" data-first="20" data-last="26">Migration to Britain</button>
+<button type="button" data-first="27" data-last="35">War &amp; loss</button>
+<button type="button" data-first="36" data-last="46">A scattered family</button>
 </div>
 </nav>
 
@@ -283,10 +299,29 @@ conflicts and changing relationship with the wider world.
 </div>
 </article>
 
+<article>
+<div class="number">2</div>
+<div>
+<h3>The Jews in Poland-Lithuania and Russia: 1350 to the Present Day <span class="new-badge" data-new-until="2026-10-08">NEW</span></h3>
+<p class="show">The YIVO Institute for Jewish Research Podcast · Antony Polonsky · 69 min</p>
+<p>
+A wide-angle introduction to the civilisation from which both sides of the
+family emerged. Polonsky moves beyond a history told mainly through persecution
+to cover towns and shtetls, Hasidism, Haskalah, urbanisation and relations with
+surrounding societies across Poland-Lithuania and the Russian Empire.<sup class="ai-note" title="AI-written curatorial note" aria-label="AI-written curatorial note">AI</sup>
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/the-jews-in-poland-lithuania-and-russia-1350-to/id1880730483?i=1000756720234" target="_blank">Apple Podcasts</a> ·
+<a href="https://newbooksnetwork.com/the-jews-in-poland-lithuania-and-russia-1350-to-the-present-day" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
 <h2>The Freedman family: Vilnius and the Lithuanian Jewish world</h2>
 
 <article class="recommended">
-<div class="number">2</div>
+<div class="number">3</div>
 <div>
 <h3>Remembering Vilna: Introduction <span class="star">★</span></h3>
 <p class="show">Yale Fortunoff Video Archive · YIVO</p>
@@ -304,7 +339,7 @@ a centre of religious tradition, modern secular culture and Jewish politics.
 </article>
 
 <article class="recommended">
-<div class="number">3</div>
+<div class="number">4</div>
 <div>
 <h3>Remembering Vilna, Chapter 1: Childhood Memories <span class="star">★</span></h3>
 <p class="show">Yale Fortunoff Video Archive · YIVO</p>
@@ -323,7 +358,7 @@ and the diversity of Jewish life before 1939.
 </article>
 
 <article class="recommended">
-<div class="number">4</div>
+<div class="number">5</div>
 <div>
 <h3>The Yeshiva Elite in 19th Century Lithuania <span class="star">★</span> <span class="new-badge" data-new-until="2026-09-27">NEW</span></h3>
 <p class="show">Jewish History Soundbites · Yehuda Geberer · 47 min</p>
@@ -342,7 +377,26 @@ wealth interacted in nineteenth-century Lithuania.<sup class="ai-note" title="AI
 </article>
 
 <article>
-<div class="number">5</div>
+<div class="number">6</div>
+<div>
+<h3>The Vilna Gaon and the Making of Modern Judaism <span class="new-badge" data-new-until="2026-10-08">NEW</span></h3>
+<p class="show">The YIVO Institute for Jewish Research Podcast · Eliyahu Stern and Jeremy Dauber · 62 min</p>
+<p>
+Stern argues that modern Jewish history should begin not only with Mendelssohn
+and Western Europe but also with Vilna and the Gaon. Their conversation explores
+his influence on modern Judaism and why traditionalists, maskilim, Zionists and
+the Orthodox all claimed his legacy.<sup class="ai-note" title="AI-written curatorial note" aria-label="AI-written curatorial note">AI</sup>
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/the-vilna-gaon-and-the-making-of-modern-judaism/id1880730483?i=1000756561239" target="_blank">Apple Podcasts</a> ·
+<a href="https://newbooksnetwork.com/the-vilna-gaon-and-the-making-of-modern-judaism" target="_blank">Web</a>
+</div>
+</div>
+</article>
+
+<article>
+<div class="number">7</div>
 <div>
 <h3>Chronicles of a Talmud Girl Boss <span class="new-badge" data-new-until="2026-09-20">NEW</span></h3>
 <p class="show">Jewish History Nerds</p>
@@ -361,7 +415,7 @@ books, technology and women’s lives beyond its rabbis and yeshivas.<sup class=
 </article>
 
 <article>
-<div class="number">6</div>
+<div class="number">8</div>
 <div>
 <h3>In the Shadow of the Shtetl: Telling the Story of Small-Town Jewish Life</h3>
 <p class="show">The Shmooze · Yiddish Book Center · Jeffrey Veidlinger</p>
@@ -380,7 +434,7 @@ small-town Jewish life from interviews with more than 100 Yiddish speakers.
 <h2>Work, trade and everyday life</h2>
 
 <article>
-<div class="number">7</div>
+<div class="number">9</div>
 <div>
 <h3>Yankel’s Tavern: Jews, Liquor, and Life in the Kingdom of Poland <span class="new-badge" data-new-until="2026-09-20">NEW</span></h3>
 <p class="show">New Books Network · Glenn Dynner · 32 min</p>
@@ -402,10 +456,31 @@ account of the family’s locality.<sup class="ai-note" title="AI-written curato
 </div>
 </article>
 
+<article class="recommended">
+<div class="number">10</div>
+<div>
+<h3>The Shochet: The Autobiography of Pinkhes-Dov Goldenshteyn <span class="star">★</span> <span class="new-badge" data-new-until="2026-10-08">NEW</span></h3>
+<p class="show">Seforim Chatter · Michoel Rotenfeld · Parts 1 and 2 · 90 and 59 min</p>
+<p>
+An unusually detailed first-person account by a nineteenth-century shochet of
+work, family, poverty, religious life, communal politics and migration across
+the Russian Empire. His experiences, including the struggle to work honestly as
+a ritual slaughterer and his growing connection to Chabad, bring together two
+particularly close strands of this family history.<sup class="ai-note" title="AI-written curatorial note" aria-label="AI-written curatorial note">AI</sup>
+</p>
+<div class="listen">
+<strong>Listen:</strong>
+<a href="https://podcasts.apple.com/us/podcast/the-shochet-the-autobiography-of-pinkhes/id1523682676?i=1000645754353" target="_blank">Part 1 on Apple Podcasts</a> ·
+<a href="https://podcasts.apple.com/us/podcast/the-shochet-part-2-the-autobiography-of/id1523682676?i=1000708882010" target="_blank">Part 2 on Apple Podcasts</a> ·
+<a href="https://www.youtube.com/watch?v=mGv4FhuQUls" target="_blank">Part 1 video</a>
+</div>
+</div>
+</article>
+
 <h2>Life, family and popular culture</h2>
 
 <article>
-<div class="number">8</div>
+<div class="number">11</div>
 <div>
 <h3>Tradition! Jewish Matchmaking, Past &amp; Present</h3>
 <p class="show">Adventures in Jewish Studies</p>
@@ -422,7 +497,7 @@ historians including Elisheva Carlebach, Naomi Seidman and Shulamit Magnus.
 </article>
 
 <article class="recommended">
-<div class="number">9</div>
+<div class="number">12</div>
 <div>
 <h3>The Lost History of Yiddish Popular Fiction <span class="star">★</span></h3>
 <p class="show">Adventures in Jewish Studies</p>
@@ -441,7 +516,7 @@ Yiddish-speaking Jews enjoyed, worried about and laughed at.
 <h2>Pressure, politics and departure</h2>
 
 <article class="recommended">
-<div class="number">10</div>
+<div class="number">13</div>
 <div>
 <h3>The Haskalah Reconsidered <span class="star">★</span> <span class="new-badge" data-new-until="2026-09-27">NEW</span></h3>
 <p class="show">The Podcast of Jewish Ideas · Dr Olga Litvak · 68 min</p>
@@ -460,7 +535,7 @@ family’s nineteenth-century ancestors.<sup class="ai-note" title="AI-written c
 </article>
 
 <article>
-<div class="number">11</div>
+<div class="number">14</div>
 <div>
 <h3>1897: A Year of Transition <span class="new-badge" data-new-until="2026-09-27">NEW</span></h3>
 <p class="show">Jewish History Soundbites · Yehuda Geberer · about 50 min</p>
@@ -478,7 +553,7 @@ emerging from the same Eastern European world.<sup class="ai-note" title="AI-wri
 </article>
 
 <article>
-<div class="number">12</div>
+<div class="number">15</div>
 <div>
 <h3>Episode 5: Before Zionism</h3>
 <p class="show">Jewish Questions · University of Washington · Liora Halperin</p>
@@ -496,7 +571,7 @@ Palestine before political Zionism became dominant.
 </article>
 
 <article>
-<div class="number">13</div>
+<div class="number">16</div>
 <div>
 <h3>Rethinking Kishinev: How a Riot Changed 20th Century Jewish History</h3>
 <p class="show">YIVO Institute for Jewish Research</p>
@@ -517,7 +592,7 @@ international opinion and the way Russian Jewish history has subsequently been t
 <h2>The Gillman/Rafkin family: Hasidism and Chabad</h2>
 
 <article>
-<div class="number">14</div>
+<div class="number">17</div>
 <div>
 <h3>The Chassidic Movement in the Russian Empire <span class="new-badge" data-new-until="2026-09-27">NEW</span></h3>
 <p class="show">Jewish History Soundbites · Yehuda Geberer · 50 min</p>
@@ -535,7 +610,7 @@ Gillman/Rafkin family’s Chabad strand.<sup class="ai-note" title="AI-written c
 </article>
 
 <article>
-<div class="number">15</div>
+<div class="number">18</div>
 <div>
 <h3>David Biale: Hasidism – A New History</h3>
 <p class="show">New Books in Jewish Studies</p>
@@ -552,7 +627,7 @@ East European Judaism.
 </article>
 
 <article>
-<div class="number">16</div>
+<div class="number">19</div>
 <div>
 <h3>Kabbalah and the Rupture of Modernity: An Existential History of Chabad Hasidism</h3>
 <p class="show">New Books in Jewish Studies · Eli Rubin</p>
@@ -572,7 +647,7 @@ perspective rather than presented as a viewpoint-free account.
 <h2>How the migration actually happened</h2>
 
 <article class="recommended">
-<div class="number">17</div>
+<div class="number">20</div>
 <div>
 <h3>The Last Ships From Hamburg: An Immigration Story <span class="star">★</span></h3>
 <p class="show">The Bowery Boys · Steven Ujifusa</p>
@@ -592,7 +667,7 @@ million East European Jews to leave.
 <h2>A short first stop: Whitechapel</h2>
 
 <article class="recommended">
-<div class="number">18</div>
+<div class="number">21</div>
 <div>
 <h3>Now You're Talking Cockney Yiddish <span class="star">★</span></h3>
 <p class="show">The Cockney Yiddish Podcast · Queen Mary University of London</p>
@@ -611,7 +686,7 @@ in the East End where part of the family first encountered Britain.
 <h2>North to Lancashire</h2>
 
 <article>
-<div class="number">19</div>
+<div class="number">22</div>
 <div>
 <h3>Machloket</h3>
 <p class="show">British Jewish oral-history project</p>
@@ -629,7 +704,7 @@ helping move the story beyond the familiar East End narrative.
 <h2>The Freedman family: Manchester and Blackpool</h2>
 
 <article class="recommended">
-<div class="number">20</div>
+<div class="number">23</div>
 <div>
 <h3>A Memory Map of Jewish Manchester <span class="star">★</span></h3>
 <p class="show">Manchester Jewish Museum · oral history</p>
@@ -647,7 +722,7 @@ Hightown illuminate the Manchester stage of the Freedman family journey.
 <h2>The Goldbergs: Blackburn</h2>
 
 <article class="recommended">
-<div class="number">21</div>
+<div class="number">24</div>
 <div>
 <h3>From Poland to Paradise Lane <span class="star">★</span></h3>
 <p class="show">Hilary Thomas · Jewish TALK JSCN</p>
@@ -665,7 +740,7 @@ making this one of the most directly personal selections.
 </article>
 
 <article>
-<div class="number">22</div>
+<div class="number">25</div>
 <div>
 <h3>Blackburn's Vanished Jewish Community</h3>
 <p class="show">JCR-UK · JewishGen</p>
@@ -683,7 +758,7 @@ Goldbergs settled, its synagogue and its eventual disappearance.
 <h2>The Gillmans and Goldbergs: Liverpool</h2>
 
 <article>
-<div class="number">23</div>
+<div class="number">26</div>
 <div>
 <h3>Liverpool Jewish community history</h3>
 <p class="show">JCR-UK · JewishGen</p>
@@ -701,7 +776,7 @@ and Goldberg branches ultimately came together.
 <h2>Relatives who remained in Eastern Europe</h2>
 
 <article>
-<div class="number">24</div>
+<div class="number">27</div>
 <div>
 <h3>The Shtetl Crumbles <span class="new-badge" data-new-until="2026-09-20">NEW</span></h3>
 <p class="show">12 Years That Shook the World · United States Holocaust Memorial Museum · 29 min</p>
@@ -725,7 +800,7 @@ the very small number who escaped or survived.<sup class="ai-note" title="AI-wri
 </article>
 
 <article>
-<div class="number">25</div>
+<div class="number">28</div>
 <div>
 <h3>“A Matter of Savagery” <span class="new-badge" data-new-until="2026-09-20">NEW</span></h3>
 <p class="show">12 Years That Shook the World · United States Holocaust Memorial Museum · 27 min</p>
@@ -745,7 +820,7 @@ Crumbles</em>.
 </article>
 
 <article>
-<div class="number">26</div>
+<div class="number">29</div>
 <div>
 <h3>Combatants and Protectors <span class="new-badge" data-new-until="2026-09-20">NEW</span></h3>
 <p class="show">12 Years That Shook the World · United States Holocaust Memorial Museum</p>
@@ -768,7 +843,7 @@ extraordinary conditions.<sup class="ai-note" title="AI-written curatorial note"
 </article>
 
 <article>
-<div class="number">27</div>
+<div class="number">30</div>
 <div>
 <h3>Remembering Vilna, Chapter 3: Nazi Invasion</h3>
 <p class="show">Yale Fortunoff Video Archive · YIVO</p>
@@ -784,7 +859,7 @@ Vilna and rapidly imposed persecution, forced identification and mass murder.
 </article>
 
 <article class="recommended">
-<div class="number">28</div>
+<div class="number">31</div>
 <div>
 <h3>Remembering Vilna, Chapter 7: Liquidation <span class="star">★</span></h3>
 <p class="show">Yale Fortunoff Video Archive · YIVO</p>
@@ -801,7 +876,7 @@ episodes rather than requiring listeners to tackle the entire series.
 </article>
 
 <article>
-<div class="number">29</div>
+<div class="number">32</div>
 <div>
 <h3>Remembering Vilna, Chapter 10: Aftermath</h3>
 <p class="show">Yale Fortunoff Video Archive · YIVO</p>
@@ -818,7 +893,7 @@ post-war dispersal.
 </article>
 
 <article>
-<div class="number">30</div>
+<div class="number">33</div>
 <div>
 <h3>Eišiškės: the place of murder</h3>
 <p class="show">JewishGen Yizkor Book Project</p>
@@ -837,7 +912,7 @@ than their former homes.
 <h2>Łódź and the Gillman/Goldberg relatives who remained in Poland</h2>
 
 <article class="recommended">
-<div class="number">31</div>
+<div class="number">34</div>
 <div>
 <h3>A Łódź Ghetto Survivor and Her Daughter Experience “Memory Unearthed” <span class="star">★</span></h3>
 <p class="show">Stories Survive · Museum of Jewish Heritage</p>
@@ -857,7 +932,7 @@ a broken Apple link has not been included.
 </article>
 
 <article>
-<div class="number">32</div>
+<div class="number">35</div>
 <div>
 <h3>Henryk Ross's Photographs of the Łódź Ghetto</h3>
 <p class="show">The Lonely Palette</p>
@@ -877,7 +952,7 @@ inside the ghetto.
 <h2>Reconnecting a family scattered by migration and the Holocaust</h2>
 
 <article class="recommended">
-<div class="number">33</div>
+<div class="number">36</div>
 <div>
 <h3>The DNA Reunion Project <span class="star">★</span></h3>
 <p class="show">Gesher Galicia Today · Jennifer Mendelsohn &amp; Adina Newman</p>
@@ -894,7 +969,7 @@ branches and reconnect families separated by the Holocaust.
 </article>
 
 <article>
-<div class="number">34</div>
+<div class="number">37</div>
 <div>
 <h3>Arthur Kurzweil: The Persistence of Memory</h3>
 <p class="show">Gesher Galicia Today</p>
@@ -912,7 +987,7 @@ to the place itself. Particularly good as a companion to doing one's own family 
 </article>
 
 <article>
-<div class="number">35</div>
+<div class="number">38</div>
 <div>
 <h3>Galicia Jewish Museum Director Jacek Stawiski</h3>
 <p class="show">Gesher Galicia Today</p>
@@ -931,7 +1006,7 @@ treating it solely as a landscape of destruction.
 <h2>South Africa and Australia</h2>
 
 <article>
-<div class="number">36</div>
+<div class="number">39</div>
 <div>
 <h3>Southern Africa Jewish Genealogy</h3>
 <p class="show">JewishGen SA-SIG</p>
@@ -947,7 +1022,7 @@ much larger story of Lithuanian Jewish migration to southern Africa.
 </article>
 
 <article>
-<div class="number">37</div>
+<div class="number">40</div>
 <div>
 <h3>Australian Jewish Historical Society</h3>
 <p class="show">Family-history research companion</p>
@@ -965,7 +1040,7 @@ Australia and Tasmania.
 <h2>The American route: arrival and New York</h2>
 
 <article class="recommended">
-<div class="number">38</div>
+<div class="number">41</div>
 <div>
 <h3>#473 The Other Side of Ellis Island <span class="star">★</span></h3>
 <p class="show">The Bowery Boys</p>
@@ -983,7 +1058,7 @@ be detained.
 </article>
 
 <article>
-<div class="number">39</div>
+<div class="number">42</div>
 <div>
 <h3>#183 Orchard Street: Life in the Lower East Side</h3>
 <p class="show">The Bowery Boys</p>
@@ -1002,7 +1077,7 @@ neighbourhood most associated with the great Eastern European Jewish migration.
 <h2>The Gillman/Rafkin Chabad descendants in New York</h2>
 
 <article>
-<div class="number">40</div>
+<div class="number">43</div>
 <div>
 <h3>Love Thy Neighbor: Four Days in Crown Heights That Changed New York</h3>
 <p class="show">Collier Meyerson · Pineapple Street Studios</p>
@@ -1021,7 +1096,7 @@ came to share.
 <h2>Gillman and Rafkin: America beyond New York</h2>
 
 <article class="recommended">
-<div class="number">41</div>
+<div class="number">44</div>
 <div>
 <h3>IN Jewish History <span class="star">★</span></h3>
 <p class="show">Indiana Jewish Historical Society</p>
@@ -1040,7 +1115,7 @@ Its archive specifically contains material from Bluffton.
 </article>
 
 <article class="recommended">
-<div class="number">42</div>
+<div class="number">45</div>
 <div>
 <h3>Jews on the Texas Frontier <span class="star">★</span></h3>
 <p class="show">Talking Texas History · Bryan Stone</p>
@@ -1060,7 +1135,7 @@ regional frame for the Amarillo branch.
 <h2>The South American branch</h2>
 
 <article class="recommended">
-<div class="number">43</div>
+<div class="number">46</div>
 <div>
 <h3>Exploring Jewish Life in Uruguay and the Importance of Stories <span class="star">★</span></h3>
 <p class="show">Fulbright Forward · Dr Teresa Porzecanski</p>
@@ -1084,16 +1159,8 @@ programme.
 
 <section class="people-section" id="people-in-our-story" aria-labelledby="people-heading">
 <h2 id="people-heading">People in our story</h2>
-<p>A small guide to the ancestors whose lives connect to these episodes. They do not appear in the podcasts; the episodes help us picture aspects of their world. Relationships are from Sheila or Stan.</p>
-<div class="people-grid">
-<div class="person-card" id="person-louis"><h3>Louis (Leiba) Freedman</h3><p class="relation">Stan’s great-grandfather, on both his father’s and mother’s sides</p><p>Born in Olkeniki around 1845; later lived in Manchester. The current tree connects both of Stan’s parents to him.</p><p class="related"><strong>His story connects to:</strong> Lithuanian shtetl life, work and migration.</p><a href="#episode-1">Related episode 1</a> · <a href="https://www.ancestry.com/family-tree/person/tree/207530184/person/422718292684/facts" target="_blank" rel="noopener noreferrer">Working tree record</a></div>
-<div class="person-card" id="person-anna"><h3>Anna (Khanka) Freedman</h3><p class="relation">Stan’s grandmother, through his mother Lily</p><p>Born in Degsnės in 1869. Her family connects Stan’s branch to the Lithuanian villages discussed in the playlist.</p><p class="related"><strong>Her story connects to:</strong> village life, migration and relatives who remained in the region.</p><a href="#episode-2">Related episode 2</a> · <a href="https://www.ancestry.com/family-tree/person/tree/207530184/person/422718410617/facts" target="_blank" rel="noopener noreferrer">Working tree record</a></div>
-<div class="person-card" id="person-morris"><h3>Morris (Pinchas) Freedman</h3><p class="relation">Stan’s grandfather, through his father Jack</p><p>Born in the Vilnius region around 1879. His branch later lived in Manchester.</p><p class="related"><strong>His story connects to:</strong> Lithuanian Jewish life and the move to Manchester.</p><a href="#episode-2">Related episode 2</a> · <a href="https://www.ancestry.com/family-tree/person/tree/207530184/person/422718292497/facts" target="_blank" rel="noopener noreferrer">Working tree record</a></div>
-<div class="person-card" id="person-max"><h3>Max Gillman (Rafkind)</h3><p class="relation">Sheila’s grandfather, through her father Gilly</p><p>Born in Polotsk around 1873; later lived in Liverpool. This is a starting point for the Gillman/Rafkin branch.</p><p class="related"><strong>His story connects to:</strong> the Chabad family background and Liverpool migration.</p><a href="#episode-14">Related episode 14</a> · <a href="https://www.ancestry.com/family-tree/person/tree/207530184/person/422718411670/facts" target="_blank" rel="noopener noreferrer">Working tree record</a></div>
-<div class="person-card" id="person-philip"><h3>Philip Goldberg</h3><p class="relation">Sheila’s grandfather, through her mother Esther</p><p>Part of the Goldberg branch that moved through Blackburn and settled in Liverpool.</p><p class="related"><strong>His story connects to:</strong> Jewish life in Blackburn and Liverpool.</p><a href="#episode-21">Related episode 21</a> · <a href="https://www.ancestry.com/family-tree/person/tree/207530184/person/422718291213/facts" target="_blank" rel="noopener noreferrer">Working tree record</a></div>
-<div class="person-card" id="person-esther"><h3>Esther Goldberg</h3><p class="relation">Sheila’s mother</p><p>Born in Blackburn in 1910; lived in Liverpool. Her life links two important stops in the family journey.</p><p class="related"><strong>Her story connects to:</strong> Blackburn, Liverpool and the family’s northern English roots.</p><a href="#episode-21">Related episode 21</a> · <a href="https://www.ancestry.com/family-tree/person/tree/207530184/person/422718291000/facts" target="_blank" rel="noopener noreferrer">Working tree record</a></div>
-</div>
-<p class="note">These details come from Jon’s working family tree and may change when the genealogist’s master tree is added. Ancestry may ask you to sign in to open an individual record.</p>
+<p>Meet the relatives whose lives connect to the history explored here. They do not appear in the podcasts; these episodes help us understand parts of their world. Relationships are described from Sheila or Stan.</p>
+<div id="people-cards"></div>
 </section>
 
 <footer>
@@ -1108,6 +1175,7 @@ particular religious or political viewpoint.
 </footer>
 
 </main>
+<button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top">↑ Top</button>
 <dialog id="login-dialog">
 <form class="dialog-body" id="login-form">
 <h2>Request access or log in</h2>
@@ -1188,8 +1256,8 @@ particular religious or political viewpoint.
 </div>
 </div>
 </dialog>
-<script src="family.js?v=1" defer></script>
-<script type="module" src="progress.js?v=password-test-3"></script>
+<script src="family.js?v=2" defer></script>
+<script type="module" src="progress.js?v=family-2"></script>
 <script src="install.js?v=1" defer></script>
 <script>
 document.querySelectorAll('[data-new-until]').forEach(function (badge) {
