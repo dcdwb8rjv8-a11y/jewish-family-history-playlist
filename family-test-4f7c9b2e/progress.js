@@ -52,6 +52,7 @@ const requestList = $('#request-list');
 const memberList = $('#member-list');
 
 const articles = [...document.querySelectorAll('main > article')];
+const retiredArticles = [...document.querySelectorAll('#earlier-items > article')];
 const records = new Map();
 let currentUser = null;
 let currentMember = false;
@@ -64,16 +65,33 @@ let db;
 let firebase;
 
 const REFLECTION_PROMPTS = {
-  'the-jews-in-poland-lithuania-and-russia-1350-to-the-present-day': 'Polonsky reconstructs a whole civilisation rather than reducing Eastern European Jewish history to persecution. Which part of that wider world best helps you place the family, and which theme would you most like to follow into a more personal story?',
-  'the-vilna-gaon-and-the-making-of-modern-judaism': 'Stern uses the Vilna Gaon to tell a different story of Jewish modernity, rooted in Eastern Europe and claimed by very different later movements. Which aspect of that legacy most changes how you understand Vilna, and why?',
-  'the-shochet-the-autobiography-of-pinkhes-dov-goldenshteyn': 'Goldenshteyn describes an ordinary life from the inside, including work as a shochet, poverty, family, communal conflict and Chabad. Which detail feels closest to your own family story, and what does his memoir reveal that a formal history might miss?',
+  "yiddish-ethnography-and-an-ski": "What would you most want someone to have recorded from your ancestors’ daily lives: a song, a story, a photograph or an ordinary object, and why?",
+  "innovation-or-assimilation-the-moses-mendelssohn-story": "How does Mendelssohn’s own religious practice complicate the idea that engaging with European culture necessarily meant abandoning Judaism?",
+  "jewish-philosophy-moses-mendelssohn": "Which part of Mendelssohn’s account of a flourishing life feels most relevant today, and how does it help you distinguish Enlightenment from emancipation?",
+  "steven-nadler-spinoza-atheist": "What question about Spinoza’s understanding of God and nature would you most like to clarify, and why might that question have mattered to later Jewish thinkers?",
+  "reforming-judaism-daniel-freelander-i": "Which early Reform debate helps explain the Judaism you have inherited, and what distinguishes the reformers’ aims from Mendelssohn’s own approach?",
+  "reform-or-revolution-daniel-freelander-ii": "Which change feels most familiar from Jewish life you know, and what would you want to compare with the British experience?",
+  "russian-jewry-under-the-czars-1772-1881": "Which restriction or opportunity most changes how you picture the choices available to your family in the Russian Empire?",
+  "the-russian-empire-ii-persecution-heroism-informers": "What helps you imagine how a family or community might respond to conscription and state pressure, and what remains difficult to understand?",
+  "the-russian-empire-iii-fight-or-flight": "What questions does this account raise about trust within a community under pressure, and how might restrictions on clothing affect everyday family life?",
+  "the-russian-empire-iv-freedom-poverty-pogroms": "How might hopes for security, economic opportunity and political change have overlapped for people deciding whether to stay or leave?",
+  "russian-jewry-under-the-czars-1881-1914": "Which part of this chronology helps explain the timing of the family’s departures, and what other personal motives might have mattered alongside politics?",
+  "expulsion-from-moscow-1891": "How might the sudden loss of permission to stay change a family’s sense of security, and how could migration and political hopes develop together?",
+  "forverts-politics-and-protest": "What do the songs and writing reveal about how working people understood their circumstances and encouraged one another to act?",
+  "when-you-go-to-a-yiddish-theatre": "What does theatre-going reveal about the interests and pleasures of immigrant communities beyond work and religious life?",
+  "oy-who-are-you-laughing-at": "What kind of humour feels familiar from your own family, and what can a joke reveal that a formal historical account might miss?",
+  "look-back-in-shmaltz": "Which food, song or place holds family memories for you, and where does memory become nostalgia?",
+  "the-mystery-of-solomon-levy": "How would you separate evidence from a much-loved family story while keeping the value of both?",
   'the-shtetl-myth-and-reality': 'Kassow contrasts the real shtetl with both nostalgia and caricature. Which parts complicate the picture you had before, and what might daily life have felt like for your family?',
+  'the-jews-in-poland-lithuania-and-russia-1350-to-the-present-day': 'Polonsky reconstructs a whole civilisation rather than reducing Eastern European Jewish history to persecution. Which part of that wider world best helps you place the family, and which theme would you most like to follow into a more personal story?',
   'remembering-vilna-introduction': 'Vilna was a centre of religious tradition, secular culture and Jewish politics. Which side of the city feels closest to the Vilna you imagined, and which would you like to explore further?',
   'remembering-vilna-chapter-1-childhood-memories': 'Survivors recall Vilna through homes, streets, schools, synagogues and organisations. Which details make the city feel most alive, and what would you most like to know about your family’s life there?',
   'the-yeshiva-elite-in-19th-century-lithuania': 'This episode describes the ideal of intensive Torah study and the institutions built around it. How does it help you picture the family’s rabbis, teachers and shochets within Lithuanian Jewish society, and what would you like to know about their own learning?',
+  'the-vilna-gaon-and-the-making-of-modern-judaism': 'Stern uses the Vilna Gaon to tell a different story of Jewish modernity, rooted in Eastern Europe and claimed by very different later movements. Which aspect of that legacy most changes how you understand Vilna, and why?',
   'chronicles-of-a-talmud-girl-boss': 'Devorah Romm’s story reveals publishing, technology and women’s work in Vilna. What does it add to a history often told through rabbis and yeshivas, and did anything challenge your assumptions?',
   'in-the-shadow-of-the-shtetl-telling-the-story-of-small-town-jewish-life': 'Veidlinger reconstructs small-town life from many individual memories. What can oral testimony preserve that official records cannot, and whose voice from your own family would you most want to hear?',
   'yankel-s-tavern-jews-liquor-and-life-in-the-kingdom-of-poland': 'Jewish tavern keepers worked between landowners, customers, neighbours and the state. Does this help you imagine the family’s tavern landlords differently, and what questions does it raise about their relationships with the wider community?',
+  'the-shochet-the-autobiography-of-pinkhes-dov-goldenshteyn': 'Goldenshteyn describes an ordinary life from the inside, including work as a shochet, poverty, family, communal conflict and Chabad. Which detail feels closest to your own family story, and what does his memoir reveal that a formal history might miss?',
   'tradition-jewish-matchmaking-past-present': 'The episode presents marriage as romance, family strategy, economics and social expectation. Which pressures might have shaped marriages in your family, and what feels familiar or distant today?',
   'the-lost-history-of-yiddish-popular-fiction': 'Popular Yiddish stories reveal what ordinary readers enjoyed, feared and laughed about. What surprised you about their tastes, and what might your relatives have read purely for pleasure?',
   'the-haskalah-reconsidered': 'Litvak relocates the Haskalah from Berlin to Eastern Europe and imperial Russia. Which tensions between inherited tradition and new ideas seem most relevant to your ancestors’ world, and what does this account make you reconsider?',
@@ -113,6 +131,7 @@ const REFLECTION_PROMPTS = {
 };
 
 function episodeId(article) {
+  if (article.dataset.episodeId) return article.dataset.episodeId;
   const title = article.querySelector('h3').childNodes[0].textContent.trim();
   return title.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
     .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -179,6 +198,16 @@ function renderPlaylist() {
   restoreArticles();
   archiveItems.replaceChildren();
   nextItem.replaceChildren();
+  const earlierPanel = $('#earlier-selections');
+  earlierPanel.hidden = true;
+  for (const article of retiredArticles) {
+    const item = records.get(article.dataset.episodeId);
+    article.hidden = !canTrack() || !item || (!item.listened && !item.notes);
+    if (!article.hidden) {
+      earlierPanel.hidden = false;
+      addTools(article);
+    }
+  }
   if (!canTrack()) {
     archive.hidden = true;
     nextPanel.hidden = true;
@@ -474,7 +503,7 @@ function updateAccountUi() {
 }
 
 function episodeTitle(id) {
-  const article = articles.find(item => item.dataset.episodeId === id);
+  const article = [...articles, ...retiredArticles].find(item => item.dataset.episodeId === id);
   return article?.querySelector('h3').childNodes[0].textContent.trim() || id;
 }
 
@@ -487,6 +516,16 @@ function downloadJourney() {
     lines.push(`Listened: ${item.listened ? 'Yes' : 'No'}`);
     if (item.notes) lines.push('Thoughts and reflections:', item.notes);
     lines.push('');
+  }
+  const activeIds = new Set(articles.map(article => article.dataset.episodeId));
+  const earlier = [...records].filter(([id]) => !activeIds.has(id));
+  if (earlier.length) {
+    lines.push('Earlier selections', '');
+    for (const [id, item] of earlier) {
+      lines.push(episodeTitle(id), `Listened: ${item.listened ? 'Yes' : 'No'}`);
+      if (item.notes) lines.push('Thoughts and reflections:', item.notes);
+      lines.push('');
+    }
   }
   const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
   const link = document.createElement('a');
