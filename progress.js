@@ -709,31 +709,100 @@ async function start() {
   downloadButton.addEventListener('click', downloadJourney);
   deleteAccountButton.addEventListener('click', deleteAccountAndData);
   await handleEmailAction(authModule);
-  authModule.onAuthStateChanged(auth, async user => {
-    currentUser = user;
-    currentMember = false;
-    currentAdmin = false;
-    currentRequestStatus = null;
-    records.clear();
-    showError();
+    let accountLoadId = 0;
+  let retryTimer = null;
+  let lastLoadedUid = null;
+
+  async function restoreAccount(user, attempt = 0) {
+    const loadId = accountLoadId;
+
+    try {
+      await membershipStatus(user);
+
+      if (loadId !== accountLoadId) return;
+
+      await loadProgress();
+
+      if (loadId !== accountLoadId) return;
+
+      lastLoadedUid = user.uid;
+      updateAccountUi();
+      renderPlaylist();
+      showError();
+
+      if (currentAdmin) {
+        loadAdminPanel().catch(error => {
+          console.error('Admin panel loading failed:', error);
+        });
+      }
+
+      if (!currentMember && !currentAdmin &&
+          !currentRequestStatus && !accessRequestDialog.open) {
+        accessRequestDialog.showModal();
+      }
+
+    } catch (error) {
+      if (loadId !== accountLoadId) return;
+
+      console.error('Account loading failed:', error);
+
+      if (attempt < 5) {
+        showError('Restoring your listening history. Retrying…');
+        retryTimer = setTimeout(
+          () => restoreAccount(user, attempt + 1),
+          Math.min(1000 * Math.pow(2, attempt), 16000)
+        );
+      } else {
+        showError(
+          'Your listening history could not be loaded. ' +
+          'Please check your connection and reopen the app.'
+        );
+      }
+    }
+  }
+
+  authModule.onAuthStateChanged(auth, user => {
+    accountLoadId++;
+    clearTimeout(retryTimer);
+
     if (!user) {
+      currentUser = null;
+      currentMember = false;
+      currentAdmin = false;
+      currentRequestStatus = null;
+      lastLoadedUid = null;
+      records.clear();
+      showError();
       updateAccountUi();
       renderPlaylist();
       return;
     }
-    try {
-      await membershipStatus(user);
-      await loadProgress();
-      updateAccountUi();
-      renderPlaylist();
-      if (currentAdmin) await loadAdminPanel();
-      if (!currentMember && !currentAdmin && !currentRequestStatus && !accessRequestDialog.open) {
-        accessRequestDialog.showModal();
-      }
-    } catch (error) {
-      updateAccountUi();
-      renderPlaylist();
-      showError('Your account information could not be loaded. Please try again.');
+
+    if (lastLoadedUid !== user.uid) {
+      records.clear();
+      currentMember = false;
+      currentAdmin = false;
+      currentRequestStatus = null;
+    }
+
+    currentUser = user;
+    accountStatus.textContent = 'Restoring your listening journey…';
+    restoreAccount(user);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && currentUser) {
+      accountLoadId++;
+      clearTimeout(retryTimer);
+      restoreAccount(currentUser);
+    }
+  });
+
+  window.addEventListener('online', () => {
+    if (currentUser) {
+      accountLoadId++;
+      clearTimeout(retryTimer);
+      restoreAccount(currentUser);
     }
   });
 }
