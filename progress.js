@@ -10,8 +10,6 @@ const trackerError = $('#tracker-error');
 const archive = $('#listened-archive');
 const archiveItems = $('#listened-items');
 const listenedCount = $('#listened-count');
-const nextPanel = $('#next-episode');
-const nextItem = $('#next-episode-item');
 const loginDialog = $('#login-dialog');
 const loginForm = $('#login-form');
 const loginEmail = $('#login-email');
@@ -197,7 +195,6 @@ function refreshSectionHeadings() {
 function renderPlaylist() {
   restoreArticles();
   archiveItems.replaceChildren();
-  nextItem.replaceChildren();
   const earlierPanel = $('#earlier-selections');
   earlierPanel.hidden = true;
   for (const article of retiredArticles) {
@@ -210,19 +207,15 @@ function renderPlaylist() {
   }
   if (!canTrack()) {
     archive.hidden = true;
-    nextPanel.hidden = true;
     for (const article of articles) article.querySelector('.episode-tools')?.remove();
     for (const heading of document.querySelectorAll('main > h2')) heading.hidden = false;
     return;
   }
   for (const article of articles) addTools(article);
   const listened = articles.filter(article => records.get(article.dataset.episodeId)?.listened);
-  const unlistened = articles.filter(article => !records.get(article.dataset.episodeId)?.listened);
   for (const article of listened) archiveItems.append(article);
-  if (unlistened[0]) nextItem.append(unlistened[0]);
   listenedCount.textContent = `${listened.length} of ${articles.length}`;
   archive.hidden = listened.length === 0;
-  nextPanel.hidden = unlistened.length === 0;
   refreshSectionHeadings();
 }
 

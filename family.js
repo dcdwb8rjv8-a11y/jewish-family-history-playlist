@@ -194,10 +194,8 @@ cards.addEventListener('click', event => {
 
 document.querySelectorAll('.topic-nav button').forEach(button => {
   button.addEventListener('click', () => {
-    const inTopic = episodes.filter(article => article.dataset.topic === button.dataset.topic);
-    const target = inTopic.find(article => !article.closest('#listened-items')) || inTopic[0];
-    if (target?.closest('#listened-items')) document.querySelector('#listened-archive').open = true;
-    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const heading = document.getElementById('theme-' + button.dataset.topic);
+    heading?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 
