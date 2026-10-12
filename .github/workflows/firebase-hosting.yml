@@ -1,0 +1,48 @@
+name: Firebase Hosting (preview and live)
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: firebase-hosting-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/992651601385/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+          service_account: 'github-firebase-deploy@jewish-family-history-playlist.iam.gserviceaccount.com'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global firebase-tools@15
+      - name: Deploy temporary preview
+        run: firebase hosting:channel:deploy "pr-${{ github.event.number }}" --expires 7d --project jewish-family-history-playlist --non-interactive
+
+  live:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/992651601385/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+          service_account: 'github-firebase-deploy@jewish-family-history-playlist.iam.gserviceaccount.com'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global firebase-tools@15
+      - name: Deploy approved update to live website
+        run: firebase deploy --only hosting --project jewish-family-history-playlist --non-interactive
